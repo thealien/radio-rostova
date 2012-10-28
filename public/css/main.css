@@ -1,0 +1,95 @@
+a img {
+    border: none;
+}
+
+a {
+    color: #8E8E8E;
+    outline: 0;
+}
+.obj {
+    outline: 0;
+}
+
+html, body {
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 12px;
+    color: #C4C4C4;
+    background: #363636 url("../images/pagebg.png") no-repeat scroll center -295px;
+}
+
+div.player-wrapper {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: 0;
+    left: -1000px;
+}
+
+div.info,
+div.shares {
+    text-align: center;
+}
+
+h1.title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5em;
+    text-align: center;
+    text-shadow: 4px 3px 0 #666;
+}
+#track {
+    text-align: center;
+    font-size: 13px;
+    padding-bottom: 10px;
+}
+
+
+#vk_like {
+    display: inline;
+}
+#comments {
+    width: 500px;
+    margin: 0 auto;
+}
+.stream-info {
+    text-align: center;
+}
+div.socials {
+    width: 300px;
+    margin: 0 auto;
+}
+a.socials {
+    background: url(../images/socials.png) no-repeat;
+    width:  34px;
+    height: 32px;
+    display: block;
+    float: left;
+}
+a.socials.titter {
+
+}
+a.socials.vkontakte {
+    background-position: 0 0;
+}
+a.socials.facebook {
+    background-position: 0 0;
+}
+a.socials.lastfm {
+    background-position: 0 0;
+}
+a.socials.titter:hover {
+    background-position: 0 0;
+}
+a.socials.vkontakte:hover {
+    background-position: 0 0;
+}
+a.socials.facebook:hover {
+    background-position: 0 0;
+}
+a.socials.lastfm:hover {
+    background-position: 0 0;
+}

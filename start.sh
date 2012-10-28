@@ -1,0 +1,1 @@
+NODE_ENV=production forever start -a -l ./forever.log -o ./logs/out.log -e ./logs/err.log app.js

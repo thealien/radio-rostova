@@ -1,0 +1,297 @@
+(function (window, undefined) {
+
+    function abstractFunc(){ throw new Error('Abstract function '); }
+
+    //
+    // BasePlayer
+    //
+
+    function BasePlayer(player, options){
+        if (typeof player ==='string') {
+            player = window.document.getElementById(player);
+            if (!player) {
+                throw new Error('Cant found player element with id '+player);
+            }
+        }
+        this.getPlayer = function(){
+            return player;
+        };
+
+        options = options || {};
+        options.files = options.files || [];
+        this.options = options;
+
+        var currentFileIndex = 0,
+            inPlay = false;
+
+        this.getCurrentFileIndex = function(){
+            return currentFileIndex;
+        };
+        this.setCurrentFileIndex = function(index){
+            index = parseInt(index, 10) || 0;
+            if (index < 0 || index > options.files.length) {
+                index = 0;
+            }
+            currentFileIndex = index;
+            return this;
+        };
+        this.getCurrentFile = function(){
+            var file = this.options.files[this.getCurrentFileIndex()];
+            if (!file) {
+                throw Error('File #'+this.getCurrentFileIndex()+' does not exists');
+            }
+            return file;
+        };
+        this.inPlay = function(status){
+            return arguments.length ? (inPlay = !!status) : (inPlay);
+        };
+    }
+
+    BasePlayer.prototype.getOptions = function(){
+        return this.options;
+    };
+
+    BasePlayer.prototype.getOption = function(name){
+        return this.options[name];
+    };
+
+    BasePlayer.prototype.setOption = function(name, value){
+        this.options[name] = value;
+        return this;
+    };
+
+    BasePlayer.prototype.play = abstractFunc;
+
+    BasePlayer.prototype.stop = abstractFunc;
+
+    BasePlayer.prototype.pause = abstractFunc;
+
+    BasePlayer.prototype.next = abstractFunc;
+
+    BasePlayer.prototype.prev = abstractFunc;
+
+    BasePlayer.prototype.getVolume = abstractFunc;
+
+    BasePlayer.prototype.setVolume = abstractFunc;
+
+    BasePlayer.prototype.toNext = function(){
+        var index = this.getCurrentFileIndex() || 0;
+        index++;
+        if (index == this.getOption('files').length) {
+            index = 0;
+        }
+        this.setCurrentFileIndex(index);
+    };
+
+    BasePlayer.prototype.toPrev = function(){
+        var index = this.getCurrentFileIndex() || 0;
+        index--;
+        if (index < 0) {
+            index = this.getOption('files').length - 1;
+        }
+        this.setCurrentFileIndex(index);
+    };
+
+    BasePlayer.prototype.addFile = function(file){
+        this.options.push(file);
+        return this;
+    };
+
+
+    //
+    // HTML5 player
+    //
+
+    function Html5Player(player, options){
+        this.parent.apply(this, arguments);
+
+        var self = this;
+        var p = this.getPlayer();
+        // events
+        window.jQuery(p).on('play', function(){
+            self.onStartPlay();
+        });
+        window.jQuery(p).on('canplaythrough',function(){
+            self.onPlay();
+        });
+    }
+
+    Html5Player.prototype = new BasePlayer;
+    Html5Player.prototype.parent = BasePlayer;
+    Html5Player.prototype.constructor = Html5Player;
+
+    Html5Player.isSupport = function(){
+        if (window.Audio !== undefined) {
+            try {
+                new window.Audio();
+                return true;
+            } catch(e){}
+        }
+        return false;
+    };
+
+    Html5Player.isSupportFormat = function(format){
+        var result = false;
+        if (Html5Player.isSupport()) {
+            format = format.toLowerCase();
+            var formats = {
+                ogg: 'audio/ogg;',
+                mp3: 'audio/mpeg;'
+            };
+            var a = new window.Audio();
+            result = (formats[format] && !!a.canPlayType(formats[format]));
+        }
+        return result;
+    };
+
+    Html5Player.prototype.play = function(){
+        var file = this.getCurrentFile();
+        this.getPlayer().setAttribute('src', file);
+        this.getPlayer().play();
+        this.inPlay(true);
+    };
+
+    Html5Player.prototype.stop = function(){
+        this.getPlayer().pause();
+        this.inPlay(false);
+    };
+
+    Html5Player.prototype.next = function(){
+        this.toNext();
+        this.inPlay() && this.play();
+        return this;
+    };
+
+    Html5Player.prototype.prev = function(){
+        this.toPrev();
+        this.inPlay() && this.play();
+    };
+
+    Html5Player.prototype.setVolume = function(volume){
+        if (volume < 0 || volume > 100) {
+            return false;
+        }
+        this.getPlayer().volume = volume/100;
+        return this;
+    };
+
+    Html5Player.prototype.onStartPlay = function(){
+        if(typeof this.options.onStartPlay == 'function') {
+            this.options.onStartPlay();
+        }
+    };
+
+    Html5Player.prototype.onPlay = function(){
+        if(typeof this.options.onPlay == 'function') {
+            this.options.onPlay();
+        }
+    };
+
+
+    //
+    // Uppod Player
+    //
+
+
+    function UppodPlayer(player, options){
+        this.parent.apply(this, arguments);
+    }
+
+    UppodPlayer.prototype = new BasePlayer;
+    UppodPlayer.prototype.parent = BasePlayer;
+    UppodPlayer.prototype.constructor = UppodPlayer;
+
+    UppodPlayer.prototype.send = function(cmd){
+        try {
+            uppodSend(this.getPlayer().id, cmd);
+        } catch (e) {
+            console.warn(e);
+        }
+        return this;
+    };
+
+    UppodPlayer.prototype.play = function(){
+        var file = this.getCurrentFile();
+        this.send('file:' + file);
+        this.inPlay(true);
+    };
+
+    UppodPlayer.prototype.stop = function(){
+        this.send('stop');
+        this.inPlay(false);
+    };
+
+    UppodPlayer.prototype.next = function(){
+        this.toNext();
+        this.inPlay() && this.play();
+        return this;
+    };
+
+    UppodPlayer.prototype.prev = function(){
+        this.toPrev();
+        this.inPlay() && this.play();
+    };
+
+    UppodPlayer.prototype.setVolume = function(volume){
+        if (volume < 0 || volume > 100) {
+            return false;
+        }
+        return this.send('v' + volume);
+    };
+
+    UppodPlayer.createPlayerObject = function(options){
+        options = options || {};
+        options.width = options.width || 1;
+        options.height = options.height || 1;
+        options.arguments = options.arguments || {};
+        checkOptions(options);
+
+        var isMSIE = (!!top.execScript),
+            obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
+
+        if (!isMSIE) {
+            obj.setAttribute("type", "application/x-shockwave-flash");
+            obj.setAttribute("data", options.movie);
+        }
+
+        obj.setAttribute("id", options.id);
+        obj.setAttribute("width", options.width);
+        obj.setAttribute("height", options.height);
+
+        var param_flashvars = document.createElement("param");
+        param_flashvars.setAttribute("name", "flashvars");
+        param_flashvars.setAttribute("value", createArgs(options.arguments));
+        obj.appendChild(param_flashvars);
+        document.body.appendChild(obj);
+        return obj;
+
+        // helpers
+        function createIeObject(url){
+            var div = document.createElement("div");
+            div.innerHTML = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'><param name='movie' value='" +url + "'></object>";
+            return div.firstChild;
+        }
+
+        function checkOptions(options){
+            if(!options.movie) throw Error('options.movie does not exist');
+            if(!options.id)throw  Error('options.id does not exist');
+        }
+
+        function createArgs(args){
+            args = args || {};
+            var result = [];
+            var arg;
+            for(arg in args){
+                if(!args.hasOwnProperty(arg))continue;
+                result.push(arg+'='+args[arg]);
+            }
+            return result.join('&');
+        }
+    };
+
+    // export
+    window.BasePlayer = BasePlayer;
+    window.Html5Player = Html5Player;
+    window.UppodPlayer = UppodPlayer;
+
+})(window);
