@@ -47,7 +47,7 @@ LastfmChecker.prototype.check = function () {
     this.getClient().getRecentTracks(this.config.channel, 1, function(data){
         var currentTrack = {},
             prevTrack = {};
-        if(data){
+        if(data && data.recenttracks){
             try {
                 var track = data.recenttracks.track;
                 if(util.isArray(track)){
