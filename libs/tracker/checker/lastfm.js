@@ -77,8 +77,10 @@ LastfmChecker.prototype.check = function () {
                 checker.setCurrentTrack(currentTrack);
             }
         } else {
-            currentTrack    = Object.create(checker.config.defaultTrack);
-            checker.setCurrentTrack(currentTrack);
+            //currentTrack    = Object.create(checker.config.defaultTrack);
+            //checker.setCurrentTrack(currentTrack);
+            console.log('EMPTY DATA');
+            console.log(data);
         }
 
         setTimeout(
