@@ -372,6 +372,229 @@ function uppodGet(playerID,com,callback) {
 }
 
 
+(function(window, undefined){
+
+    function LastFmClient(apiKey){
+        var apiUrl = 'http://ws.audioscrobbler.com/2.0/';
+
+        this.request = function(data, success, error){
+            data = data || {};
+            if (data.method === undefined) {
+                throw new Error('method is undefined');
+            }
+
+            data.api_key = data.api_key || apiKey;
+            data.format = data.format || 'json';
+            $.ajax({
+                url: apiUrl,
+                crossDomain: true,
+                dataType: 'jsonp',
+                data: data,
+                success: success,
+                error: error
+            });
+        };
+    }
+
+    function LastFm(apiKey){
+        var client = new LastFmClient(apiKey);
+        this.getClient = function(){
+            return client;
+        }
+    }
+
+    LastFm.prototype.getRecentTracks = function(options, success, error){
+        if (options.user === undefined) {
+            throw new Error('User is undefined');
+        }
+        options.method = 'user.getrecenttracks';
+        options.limit = options.limit || 1;
+        this.getClient().request(options, success, error);
+    };
+
+    // exports
+    window.LastFm = LastFm;
+
+})(window);
+
+// track-searcher
+(function(window, undefined){
+    var $ = window.jQuery;
+    var lastFm = new LastFm('c7cf555ada3061e1a0fe8b258185d6d9');
+    var tabButton = $('#track-searcher .tab-button.search:first');
+    var wrapper = $('#track-searcher .wrapper');
+    var form = $('.form:first', wrapper);
+    var result = $('ul.list:first', wrapper);
+    tabButton.click(function(){
+        tabButton.hide();
+        wrapper.slideDown();
+    });
+    var dayButtons = $('p.buttons a.day-button', form);
+    dayButtons.click(function(){
+        var me = $(this);
+        dayButtons.removeClass('selected');
+        me.addClass('selected');
+        updateDayInput(me.attr('data-day'));
+        return false;
+    });
+    var closeBtn = $('p.buttons a.close:first');
+    closeBtn.click(function(){
+        clearSearchResult(true);
+        wrapper.slideUp(function(){
+            tabButton.show();
+        });
+    });
+    var inputs = {
+        date: $('.inputs input.date:first'),
+        time: $('.inputs input.time:first'),
+        search: $('.inputs input.submit:first')
+    };
+
+    updateDayInput('today', true);
+
+    inputs.search.click(function(){
+        clearSearchResult(true);
+        var date = inputs.date.val();
+        date = date.split('.').reverse();
+        if (date[0].length < 4) date[0] = '20'+date[0];
+        date = date.join('-');
+
+        var time = inputs.time.val();
+        time = time.split(':').concat(['00']).join(':');
+
+        var dt = new Date(date + 'T' + time+getGMTOffset());
+        if (!dt) return false;
+        searchTrack(dt);
+    });
+
+    function searchTrack (date) {
+        var ts = parseInt((+date)/1000);
+        var delta = 10*60;
+        lastFm.getRecentTracks(
+            {
+                user:   'radiorostova',
+                from:   ts-delta,
+                to:     ts+delta,
+                limit:  5
+            },
+            function(data){
+                var tracks;
+                try {
+                    tracks = data.recenttracks.track;
+                } catch (e) {
+                    tracks = [];
+                }
+                showSearchResult(tracks, ts);
+            },
+            function(a, b){
+
+            }
+        );
+    }
+
+    function showSearchResult (tracks, ts) {
+        tracks = tracks || [];
+        var count = tracks.length;
+
+        if (count<1) {
+            return showEmptySearchResult();
+        }
+        clearSearchResult();
+        var i, track, res = '', time = ts, target = null, cls, date;
+        for (i=0; i<count; i++) {
+            track = tracks[i];
+            var trackDt = new Date();
+            trackDt.setSeconds(0);
+            if( track.date ) {
+                date = parseInt(track.date.uts, 10);
+                trackDt.setTime((date)* 1000);
+                trackDt.setSeconds(0);
+            } else {
+                continue;
+            }
+            date = parseInt(trackDt/1000, 10);
+            cls = '';
+            if(!target && time >= date) {
+                cls = 'target';
+                target = true;
+            }
+            var elem = '<li class="track '+cls+'">' +
+                '<img class="poster" src="'+track.image[0]['#text']+'">' +
+                '<div class="info">' +
+                '<a class="name" target="_blank" href="'+track.url+'">'+track.name+'</a>' +
+                '<a class="artist" target="_blank" href="'+track.url+'">'+track.artist['#text']+'</a>' +
+                '<div class="dt">' +
+                '<span class="time">'+getTime(trackDt)+'</span><br><span class="date"> '+getDate(trackDt)+'</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="clear"></div>' +
+                '</li>';
+            res = elem + res;
+        }
+        result.html(res).slideDown();
+    }
+
+    function clearSearchResult (hide) {
+        if (hide) result.hide();
+        result.empty();
+    }
+
+    function showEmptySearchResult () {
+        clearSearchResult();
+        result.html('К сожалению ничего не найдено');
+        result.slideDown();
+    }
+
+    function updateDayInput(type, setTime) {
+        type = type || 'today';
+        if (!{today:1, yesterday:1, other:1}[type]) {
+            return false;
+        }
+        var date = new Date();
+        switch (type) {
+            case 'yesterday':
+                date.setDate(date.getDate()-1);
+            case 'today':
+                inputs.date.attr('disabled', true);
+                break;
+            case 'other':
+            default:
+                inputs.date.attr('disabled', null);
+                inputs.date[0].focus();
+                inputs.date[0].select();
+        }
+        var str = getDate(date);
+        inputs.date.val(str);
+        if (setTime) {
+            date.setMinutes(0);
+            str = getTime(date);
+            inputs.time.val(str);
+        }
+    }
+
+    function getTime(date){
+        return [
+            String(date.getHours()).replace(/^(\d){1}$/, '0\$1'),
+            String(date.getMinutes()).replace(/^(\d){1}$/, '0\$1')
+        ].join(':');
+    }
+
+    function getDate (date) {
+        return [
+            String(date.getDate()).replace(/^(\d){1}$/, '0\$1'),
+            date.getMonth()+1,
+            String(date.getFullYear()).replace(/^(\d){2}/, '')
+        ].join('.')
+    }
+
+    function getGMTOffset () {
+        var tz = new Date().getTimezoneOffset()/60
+        var sign = (tz<0) ? '+':'-';
+        tz = String(Math.abs(tz));
+        if(tz.length<2) tz = '0'+tz;
+        return sign+tz+':00';
+    }
+}(window));
 
 // tracker
 (function(window, undefined){

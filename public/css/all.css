@@ -94,6 +94,176 @@ a.socials.lastfm:hover {
     background-position: 0 0;
 }
 
+/* track-searcher */
+#track-searcher {
+    margin: 0 auto;
+    width: 470px;
+    -webkit-border-radius: 0 0 10px 10px;
+    -moz-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;
+    background: url(../images/search/panel-bg.png) 0 100% no-repeat;
+    position: relative;
+}
+
+#track-searcher .tab-button {
+    background: url(../images/search/bg.png) repeat;
+    position: absolute;
+    border: none;
+    width: 27px;
+    height: 24px;
+    border-radius: 0 0 8px 8px;
+    -webkit-border-radius: 0 0 8px 8px;
+    -moz-border-radius: 0 0 8px 8px;
+}
+#track-searcher .tab-button img.icon {
+    margin: 4px 0 0 6px;
+    cursor: pointer;
+}
+#track-searcher .tab-button {
+    bottom: -24px;
+}
+#track-searcher .tab-button.search {
+    left: -2px;
+}
+#track-searcher .wrapper {
+    padding: 0 12px 12px;
+    display: none;
+}
+#track-searcher .form {
+
+}
+#track-searcher .form .loader {
+    text-align: center;
+    display: none;
+}
+#track-searcher .form p.buttons{
+    margin: 0;
+    padding-bottom: 5px;
+    position: relative;
+}
+#track-searcher .form p.buttons a.day-button{
+    padding: 2px 3px;
+}
+#track-searcher .form p.buttons a.day-button:hover,
+#track-searcher .form p.buttons a.day-button.selected {
+    text-decoration: none;
+    background-color: #C4C4C4;
+    color:#333;
+    border-radius:3px;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+}
+
+#track-searcher .form p.buttons a.close {
+    cursor: pointer;
+    right: 0;
+    top: 4px;
+    position: absolute;
+    font-size: 10px;
+    line-height: 1.1em;
+    border-bottom: dotted 1px #ccc;
+}
+
+#track-searcher .form .inputs {
+    padding: 10px 0 0 0;
+    text-align: center;
+}
+#track-searcher .form .inputs input.date,
+#track-searcher .form .inputs input.time {
+    font-size: 13px;
+    border: solid 1px #ccc;
+    background-color: #eee;
+    border-radius: 5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    color: #333;
+    text-align: center;
+    width: 60px;
+    vertical-align: middle;
+}
+#track-searcher .form .inputs input.submit {
+    vertical-align: middle;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+
+#track-searcher ul.list {
+    list-style: none;
+    margin: 10px 0 0 0;
+    background: url(../images/search/bg.png) repeat;
+    border-radius: 5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    padding: 0 7px 2px;
+    display: none;
+}
+#track-searcher .list li.track {
+    color: #fff;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+#track-searcher .list li.track img.poster{
+    margin-top: 4px;
+    width: 34px;
+    height: 34px;
+    float: left;
+    border: solid 1px #eee;
+}
+#track-searcher .list li.track.target img.poster{
+    border-color: #FF8832;
+    box-shadow: 0 0 5px #FF8832;
+}
+#track-searcher .list li.track .info {
+    margin-left: 5px;
+    text-align: left;
+    float: left;
+    white-space: nowrap;
+    position: relative;
+    width: 388px;
+}
+#track-searcher .list li.track.target .info {
+    color: #FF8832;
+}
+
+#track-searcher .list li.track .info a.artist{
+    line-height: 1.5em;
+    display: block;
+    text-decoration: none;
+    font-size: 12px;
+    overflow: hidden;
+}
+#track-searcher .list li.track .info a.name {
+    line-height: 1.2em;
+    font-size: 16px;
+    display: block;
+    color:  #C4C4C4;
+    overflow: hidden;
+}
+#track-searcher .list li.track .dt {
+    line-height: 1.1em;
+    right: 2px;
+    font-size: 9px;
+    position: absolute;
+    right: 2px;
+    top: 4px;
+}
+#track-searcher .list li.track .dt span.time {
+    font-size: 12px;
+}
+#track-searcher .list li.track.target .dt span.time {
+    font-weight: 700;
+    color: #FF8832;
+}
+#track-searcher .list li.track .dt span.date {
+    color:  #C4C4C4;
+}
+#track-searcher .clear {
+    clear: both;
+}
+
+
+
 /* *** PLAYER *** */
 #rr-player {
     width: 502px;
@@ -101,6 +271,7 @@ a.socials.lastfm:hover {
     font-family: Calibri;
     background: url(../images/player/bg.png) no-repeat;
     margin: 0 auto;
+    position: relative;
 }
 
 #rr-player .cover {
@@ -142,6 +313,7 @@ a.socials.lastfm:hover {
     color:  #C4C4C4;
     position: absolute;
     top: 100px;
+    width: 100%;
 }
 #rr-player .track-info .track .track-link {
     color: #C4C4C4;
@@ -155,6 +327,16 @@ a.socials.lastfm:hover {
 }
 #rr-player .track-info .track .artist {
     font-size: 11px;
+}
+#rr-player .track-info .track a.like {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(http://forpics.ru/i/20121104/91adce9178b.png) no-repeat;
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    cursor: pointer;
 }
 
 #rr-player .track-info .controls {
@@ -284,12 +466,3 @@ a.socials.lastfm:hover {
 #rr-player .track-info .volume .value {
     float: right;
 }
-
-
-
-
-
-
-
-
-

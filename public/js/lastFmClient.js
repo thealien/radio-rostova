@@ -19,7 +19,7 @@
                 success: success,
                 error: error
             });
-        }
+        };
     }
 
     function LastFm(apiKey){

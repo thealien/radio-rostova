@@ -36,6 +36,26 @@ block content
                     div
                     a.track-link( href="#", target="_blank")
                         span.artist
+                    //a.like(title="Рассказать друзьям о треке!")
+        #track-searcher
+            .wrapper
+                .form
+                    p.buttons Какая песня играла &nbsp;
+                        a.day-button.selected(href="#", data-day="today") сегодня
+                        | &nbsp;&nbsp;
+                        a.day-button(href="#", data-day="yesterday") вчера
+                        | &nbsp;&nbsp;
+                        a.day-button(href, data-day="other") в другой день
+                        a.close(title="Закрыть панель") закрыть
+                    .inputs
+                        input.date(maxlength="8"))
+                        | &nbsp; В &nbsp;
+                        input.time(maxlength='5')
+                        | &nbsp;
+                        input.submit(type="image", src="/images/search/submit.png", title="Найти", value="")
+                ul.list
+            .tab-button.search
+                img.icon(src="/images/search/submit.png", title="Найти песню по времени")
     br
     .stream-info
         span.label Текущий поток:&nbsp;
@@ -110,8 +130,9 @@ block content
 
     //script( src="js/player.js")
     //script( src="js/uppod/uppod_api.js")
+    //script( src="js/lastFmClient.js")
     //script( src="js/app.js?20121007_2")
-    script( src="js/all.min.js?20121027")
+    script( src="js/all.min.js?20121104_2")
     script( src="http://userapi.com/js/api/openapi.js?48")
     script
         (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter13165666 = new Ya.Metrika({id:13165666, enableAll: true, webvisor:true}); } catch(e) {} }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/13165666" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
