@@ -1,15 +1,12 @@
-/**
- * Module dependencies.
- */
-
+// libs
 var express = require('express'),
     socketio = require('socket.io'),
     http = require('http'),
     routes = require('./routes'),
-    lastfm_tracker = require('./libs/tracker/');
+    data_tracker = require('./libs/tracker/');
 
+// application
 var app = express();
-
 app.configure(function () {
     app.set('port', process.env.PORT || 6789);
     app.set('views', __dirname + '/views');
@@ -20,7 +17,6 @@ app.configure(function () {
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
-
 app.configure('development', function () {
     app.use(express.logger('dev'));
     app.use(express.errorHandler());
@@ -28,6 +24,7 @@ app.configure('development', function () {
 
 app.get('/', routes.index);
 
+// exception handler
 process.on('uncaughtException', function(err) {
     console.log("Uncaught exception!", err);
 });
@@ -37,8 +34,8 @@ var server = http.createServer(app).listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
 });
 
-// LastFm Tracker
-var tracker = lastfm_tracker.create(require('./config/tracker.js').sources);
+// Tracker
+var tracker = data_tracker.create(require('./config/tracker.js').sources);
 
 // socket.io
 var io = socketio.listen(server);
@@ -62,6 +59,7 @@ tracker.on('trackUpdate', function(name, track){
         io.sockets.emit('trackUpdate', track);
     }
 });
+
 tracker.start();
 
 io.sockets.on('connection', function (socket) {

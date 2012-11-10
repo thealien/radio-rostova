@@ -46,7 +46,6 @@ Tracker.prototype = new EventEmitter;
 Tracker.constructor = Tracker;
 
 Tracker.prototype.trackUpdate = function (checker, track) {
-    //console.log('\n------ trackUpdate -----\n');
     var midifiedTrack = this.modify(checker.getName(), track);
     this.emit('trackUpdate', checker.getName(), midifiedTrack);
 
@@ -56,8 +55,6 @@ Tracker.prototype.trackUpdate = function (checker, track) {
     for (; i--; ) {
         updaters[i].update(song);
     }
-    // DEBUG
-    //console.log(song);
 }
 
 Tracker.prototype.modify = function (name, data) {

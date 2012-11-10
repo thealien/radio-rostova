@@ -59,39 +59,45 @@ h1.title {
     text-align: center;
 }
 div.socials {
-    width: 300px;
+    width: 144px;
     margin: 0 auto;
+    white-space: nowrap;
 }
 a.socials {
-    background: url(../images/socials.png) no-repeat;
-    width:  34px;
+    background: url(../images/social-icons.png) no-repeat;
+    width:  32px;
     height: 32px;
     display: block;
     float: left;
+    margin: 0 2px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
-a.socials.titter {
-
+a.socials:hover {
+    box-shadow: 0 0 5px #eeeeee;
+}
+a.socials.twitter {
+    background-position: -160px 0;
 }
 a.socials.vkontakte {
     background-position: 0 0;
 }
 a.socials.facebook {
-    background-position: 0 0;
+    background-position: -32px 0;
 }
 a.socials.lastfm {
-    background-position: 0 0;
+    background-position: -96px 0;
 }
-a.socials.titter:hover {
-    background-position: 0 0;
+a.socials.googleplus {
+    background-position: -30px 0;
 }
-a.socials.vkontakte:hover {
-    background-position: 0 0;
+a.socials.odnokl {
+    background-position: -40px 0;
 }
-a.socials.facebook:hover {
-    background-position: 0 0;
-}
-a.socials.lastfm:hover {
-    background-position: 0 0;
+
+div.socials .clear {
+    clear: both;
 }
 
 /* track-searcher */
