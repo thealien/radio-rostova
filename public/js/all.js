@@ -246,7 +246,7 @@
         options.arguments = options.arguments || {};
         checkOptions(options);
 
-        var isMSIE = (!!top.execScript),
+        var isMSIE = (document.documentElement.style.scrollbar3dLightColor != undefined),
             obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
 
         if (!isMSIE) {
