@@ -1,6 +1,6 @@
 #EXTM3U
 #EXTINF:-1,Radio Rostov 101.6 FM (main)
-http://radio.romanziva.ru:8000/rostovradio
+http://live.radiorostov.ru:8000/rostovradio
 #EXTINF:-1,Radio Rostov 101.6 FM (main from zavalinka.in)
 http://zavalinka.in:8000/rostovradio
 #EXTINF:-1,Radio Rostov 101.6 FM (main for Spark)

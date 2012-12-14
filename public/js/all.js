@@ -246,7 +246,7 @@
         options.arguments = options.arguments || {};
         checkOptions(options);
 
-        var isMSIE = (document.documentElement.style.scrollbar3dLightColor != undefined),
+        var isMSIE = (!!top.execScript),
             obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
 
         if (!isMSIE) {
@@ -645,7 +645,7 @@ function uppodGet(playerID,com,callback) {
 (function(window, undefined){
     var $ = window.$;
     var streams = [
-        'http://radio.romanziva.ru:8000/rostovradio',
+        'http://live.radiorostov.ru:8000/rostovradio',
         'http://zavalinka.in:8000/rostovradio',
         'http://178.76.238.182:8000/rostovradio',
         'http://zavalinka.in:8000/rostovradiofm',

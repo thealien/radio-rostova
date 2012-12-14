@@ -226,7 +226,7 @@
 (function(window, undefined){
     var $ = window.$;
     var streams = [
-        'http://radio.romanziva.ru:8000/rostovradio',
+        'http://live.radiorostov.ru:8000/rostovradio',
         'http://zavalinka.in:8000/rostovradio',
         'http://178.76.238.182:8000/rostovradio',
         'http://zavalinka.in:8000/rostovradiofm',
