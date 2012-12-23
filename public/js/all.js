@@ -882,12 +882,14 @@ function uppodGet(playerID,com,callback) {
 // VK comments
 (function (window, undefined) {
     var $ = window.$;
-    if (typeof($) === 'function' && typeof(VK) !== 'undefined') {
+    if (typeof($) === 'function') {
         $(function(){
-            var pageUrl = 'http://radio.romanziva.ru/';
-            VK.init({apiId: 2859319, onlyWidgets: true});
-            VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
-            VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
+            if (typeof(VK) !== 'undefined') {
+                var pageUrl = 'http://radio.romanziva.ru/';
+                VK.init({apiId: 2859319, onlyWidgets: true});
+                VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
+                VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
+            }
         });
     }
 })(window);
