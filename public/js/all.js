@@ -1,3 +1,4 @@
+/*global uppodSend */
 (function (window, undefined) {
 
     function abstractFunc(){ throw new Error('Abstract function '); }
@@ -77,7 +78,7 @@
     BasePlayer.prototype.toNext = function(){
         var index = this.getCurrentFileIndex() || 0;
         index++;
-        if (index == this.getOption('files').length) {
+        if (index === this.getOption('files').length) {
             index = 0;
         }
         this.setCurrentFileIndex(index);
@@ -116,7 +117,7 @@
         });
     }
 
-    Html5Player.prototype = new BasePlayer;
+    Html5Player.prototype = new BasePlayer();
     Html5Player.prototype.parent = BasePlayer;
     Html5Player.prototype.constructor = Html5Player;
 
@@ -158,13 +159,17 @@
 
     Html5Player.prototype.next = function(){
         this.toNext();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
         return this;
     };
 
     Html5Player.prototype.prev = function(){
         this.toPrev();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
     };
 
     Html5Player.prototype.setVolume = function(volume){
@@ -176,13 +181,13 @@
     };
 
     Html5Player.prototype.onStartPlay = function(){
-        if(typeof this.options.onStartPlay == 'function') {
+        if(typeof this.options.onStartPlay === 'function') {
             this.options.onStartPlay();
         }
     };
 
     Html5Player.prototype.onPlay = function(){
-        if(typeof this.options.onPlay == 'function') {
+        if(typeof this.options.onPlay === 'function') {
             this.options.onPlay();
         }
     };
@@ -197,7 +202,7 @@
         this.parent.apply(this, arguments);
     }
 
-    UppodPlayer.prototype = new BasePlayer;
+    UppodPlayer.prototype = new BasePlayer();
     UppodPlayer.prototype.parent = BasePlayer;
     UppodPlayer.prototype.constructor = UppodPlayer;
 
@@ -223,13 +228,17 @@
 
     UppodPlayer.prototype.next = function(){
         this.toNext();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
         return this;
     };
 
     UppodPlayer.prototype.prev = function(){
         this.toPrev();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
     };
 
     UppodPlayer.prototype.setVolume = function(volume){
@@ -243,10 +252,10 @@
         options = options || {};
         options.width = options.width || 1;
         options.height = options.height || 1;
-        options.arguments = options.arguments || {};
+        options['arguments'] = options['arguments'] || {};
         checkOptions(options);
 
-        var isMSIE = (!!top.execScript),
+        var isMSIE = ('\v'=='v'),
             obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
 
         if (!isMSIE) {
@@ -260,7 +269,7 @@
 
         var param_flashvars = document.createElement("param");
         param_flashvars.setAttribute("name", "flashvars");
-        param_flashvars.setAttribute("value", createArgs(options.arguments));
+        param_flashvars.setAttribute("value", createArgs(options['arguments']));
         obj.appendChild(param_flashvars);
         document.body.appendChild(obj);
         return obj;
@@ -273,8 +282,12 @@
         }
 
         function checkOptions(options){
-            if(!options.movie) throw Error('options.movie does not exist');
-            if(!options.id)throw  Error('options.id does not exist');
+            if (!options.movie) {
+                throw Error('options.movie does not exist');
+            }
+            if (!options.id) {
+                throw  Error('options.id does not exist');
+            }
         }
 
         function createArgs(args){
@@ -282,8 +295,9 @@
             var result = [];
             var arg;
             for(arg in args){
-                if(!args.hasOwnProperty(arg))continue;
-                result.push(arg+'='+args[arg]);
+                if(args.hasOwnProperty(arg)) {
+                    result.push(arg+'='+args[arg]);
+                }
             }
             return result.join('&');
         }
@@ -371,7 +385,6 @@ function uppodGet(playerID,com,callback) {
     return document.getElementById(playerID).getUppod(com);
 }
 
-
 (function(window, undefined){
 
     function LastFmClient(apiKey){
@@ -417,6 +430,7 @@ function uppodGet(playerID,com,callback) {
 
 })(window);
 
+/*global Html5Player, UppodPlayer, VK, io, LastFm, ActiveXObject */
 // track-searcher
 (function(window, undefined){
     var $ = window.jQuery;
@@ -454,21 +468,34 @@ function uppodGet(playerID,com,callback) {
 
     inputs.search.click(function(){
         clearSearchResult(true);
+
+        // date
         var date = inputs.date.val();
         date = date.split('.').reverse();
-        if (date[0].length < 4) date[0] = '20'+date[0];
+        if (date[0].length < 4) { date[0] = '20'+date[0]; }
         date = date.join('-');
 
+        // time
         var time = inputs.time.val();
-        time = time.split(':').concat(['00']).join(':');
+        time = time.split(':');
+        if (!time.length) {
+            alert('Неверный формат времени. Введите в виде чч:мм');
+        }
+        if (time[0].length === 1) {
+            time[0] = '0'+time[0];
+        }
+        time = time.concat(['00']).join(':');
 
         var dt = new Date(date + 'T' + time+getGMTOffset());
-        if (!dt) return false;
+        if (isNaN(+dt)) {
+            alert('Ошибочная дата. Повнимательнее.');
+            return false;
+        }
         searchTrack(dt);
     });
 
     function searchTrack (date) {
-        var ts = parseInt((+date)/1000);
+        var ts = parseInt((+date)/1000, 10);
         var delta = 10*60;
         lastFm.getRecentTracks(
             {
@@ -486,9 +513,7 @@ function uppodGet(playerID,com,callback) {
                 }
                 showSearchResult(tracks, ts);
             },
-            function(a, b){
-
-            }
+            function(){}
         );
     }
 
@@ -535,7 +560,7 @@ function uppodGet(playerID,com,callback) {
     }
 
     function clearSearchResult (hide) {
-        if (hide) result.hide();
+        if (hide) { result.hide(); }
         result.empty();
     }
 
@@ -551,18 +576,20 @@ function uppodGet(playerID,com,callback) {
             return false;
         }
         var date = new Date();
+        var disabled  = null;
         switch (type) {
             case 'yesterday':
                 date.setDate(date.getDate()-1);
-            case 'today':
-                inputs.date.attr('disabled', true);
+                disabled = true;
                 break;
-            case 'other':
+            case 'today':
+                disabled = true;
+                break;
             default:
-                inputs.date.attr('disabled', null);
                 inputs.date[0].focus();
                 inputs.date[0].select();
         }
+        inputs.date.attr('disabled', disabled);
         var str = getDate(date);
         inputs.date.val(str);
         if (setTime) {
@@ -574,24 +601,24 @@ function uppodGet(playerID,com,callback) {
 
     function getTime(date){
         return [
-            String(date.getHours()).replace(/^(\d){1}$/, '0\$1'),
-            String(date.getMinutes()).replace(/^(\d){1}$/, '0\$1')
+            String(date.getHours()).replace(/^(\d){1}$/, '0$1'),
+            String(date.getMinutes()).replace(/^(\d){1}$/, '0$1')
         ].join(':');
     }
 
     function getDate (date) {
         return [
-            String(date.getDate()).replace(/^(\d){1}$/, '0\$1'),
+            String(date.getDate()).replace(/^(\d){1}$/, '0$1'),
             date.getMonth()+1,
             String(date.getFullYear()).replace(/^(\d){2}/, '')
-        ].join('.')
+        ].join('.');
     }
 
     function getGMTOffset () {
-        var tz = new Date().getTimezoneOffset()/60
+        var tz = new Date().getTimezoneOffset()/60;
         var sign = (tz<0) ? '+':'-';
         tz = String(Math.abs(tz));
-        if(tz.length<2) tz = '0'+tz;
+        if (tz.length<2) { tz = '0'+tz; }
         return sign+tz+':00';
     }
 }(window));
@@ -605,7 +632,7 @@ function uppodGet(playerID,com,callback) {
     var socket = io.connect(host);
     socket.on('trackUpdate', function (data) {
         currentTrack = parseTrackData(data);
-        if (!currentTrack) return false;
+        if (!currentTrack) { return false; }
         updateTrack(currentTrack);
     });
 
@@ -629,7 +656,7 @@ function uppodGet(playerID,com,callback) {
     function parseTrackData(track){
         var image;
         try {
-            image = track.image[2]['#text']
+            image = track.image[2]['#text'];
         } catch(e){}
         image = image || 'images/player/poster.jpg';
         return {
@@ -659,10 +686,10 @@ function uppodGet(playerID,com,callback) {
         player = new Html5Player((new Audio()), {
             files: streams,
             onStartPlay: function(){
-                //console.log(1); // TODO
+                //console.log(1);
             },
             onPlay: function(){
-                //console.log(2); // TODO
+                //console.log(2);
             }
         });
         afterPlayerInit();
@@ -670,12 +697,12 @@ function uppodGet(playerID,com,callback) {
     // FLASH
     else if(checkFlash()) {
         var playerObj = UppodPlayer.createPlayerObject({
-            movie: 'swf/uppod-audio.swf',
-            id: 'player',
-            arguments:{
-                uid:'player',
-                file: 'http%3A%2F%2Fzavalinka.in%3A8000%2Frostovradio',
-                st:'/swf/youtube.txt'
+            "movie":    'swf/uppod-audio.swf',
+            "id":       'player',
+            "arguments" :{
+                uid:    'player',
+                file:   'http%3A%2F%2Fzavalinka.in%3A8000%2Frostovradio',
+                st:     '/swf/youtube.txt'
             }
         });
         playerObj.style.visibility = 'hidden';
@@ -683,10 +710,8 @@ function uppodGet(playerID,com,callback) {
             files: streams
         });
         window.uppodEvent = function(playerId, event){
-            switch (event) {
-                case 'init':
-                    afterPlayerInit();
-                    break;
+            if (event === 'init') {
+                afterPlayerInit();
             }
         };
     }
@@ -703,7 +728,7 @@ function uppodGet(playerID,com,callback) {
         controls.next.mousedown(onNextClick);
         controls.stop.mousedown(onStopClick);
         controls.volume.progress.on('mousemove mousedown', function(e){
-            if (e.type == 'mousedown') {
+            if (e.type === 'mousedown') {
                 this.mousedown = true;
             }
             if (!this.mousedown) {
@@ -739,7 +764,7 @@ function uppodGet(playerID,com,callback) {
         }
 
         function onVolumeChange(v, force){
-            if (v != volume || force){
+            if (v !== volume || force){
                 controls.volume.slider.css('width', v+'%');
                 controls.volume.value.text( v+'%');
                 player.setVolume(volume);
@@ -784,7 +809,7 @@ function uppodGet(playerID,com,callback) {
         }
 
         function getCookie(name) {
-            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+\^])/g, '\\$1') + "=([^;]*)"));
             return matches ? decodeURIComponent(matches[1]) : undefined;
         }
 
@@ -792,7 +817,7 @@ function uppodGet(playerID,com,callback) {
         function setCookie(name, value, props) {
             props = props || {};
             var exp = props.expires;
-            if (typeof exp == "number" && exp) {
+            if (typeof exp === "number" && exp) {
                 var d = new Date();
                 d.setTime(d.getTime() + exp * 1000);
                 exp = props.expires = d;
@@ -803,20 +828,24 @@ function uppodGet(playerID,com,callback) {
 
             value = encodeURIComponent(value);
             var updatedCookie = name + "=" + value;
-            for (var propName in props) {
-                updatedCookie += "; " + propName;
-                var propValue = props[propName];
-                if (propValue !== true) {
-                    updatedCookie += "=" + propValue;
+            var propName;
+            for (propName in props) {
+                if (props.hasOwnProperty(propName)) {
+                    updatedCookie += "; " + propName;
+                    var propValue = props[propName];
+                    if (propValue !== true) {
+                        updatedCookie += "=" + propValue;
+                    }
                 }
             }
             window.document.cookie = updatedCookie;
         }
 
         function loadVolume(){
-            var volume = parseInt(getCookie('playerVolume'));
-            if(isNaN(volume) || volume < 0 || volume > 100)
+            var volume = parseInt(getCookie('playerVolume'), 10);
+            if(isNaN(volume) || volume < 0 || volume > 100) {
                 volume = 50;
+            }
             return volume;
         }
 
@@ -839,9 +868,11 @@ function uppodGet(playerID,com,callback) {
         var hasFlash = false;
         try {
             var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-            if (fo) hasFlash = true;
+            if (fo) { hasFlash = true; }
         } catch (e) {
-            if (navigator.mimeTypes ["application/x-shockwave-flash"] != undefined) hasFlash = true;
+            if (navigator.mimeTypes ["application/x-shockwave-flash"] !== undefined) {
+                hasFlash = true;
+            }
         }
         return !!hasFlash;
     }
@@ -849,9 +880,14 @@ function uppodGet(playerID,com,callback) {
 })(window);
 
 // VK comments
-$(function(){
-    var pageUrl = 'http://radio.romanziva.ru/';
-    VK.init({apiId: 2859319, onlyWidgets: true});
-    VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
-    VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
-});
+(function (window, undefined) {
+    var $ = window.$;
+    if (typeof($) === 'function' && typeof(VK) !== 'undefined') {
+        $(function(){
+            var pageUrl = 'http://radio.romanziva.ru/';
+            VK.init({apiId: 2859319, onlyWidgets: true});
+            VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
+            VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
+        });
+    }
+})(window);

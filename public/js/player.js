@@ -1,3 +1,4 @@
+/*global uppodSend */
 (function (window, undefined) {
 
     function abstractFunc(){ throw new Error('Abstract function '); }
@@ -77,7 +78,7 @@
     BasePlayer.prototype.toNext = function(){
         var index = this.getCurrentFileIndex() || 0;
         index++;
-        if (index == this.getOption('files').length) {
+        if (index === this.getOption('files').length) {
             index = 0;
         }
         this.setCurrentFileIndex(index);
@@ -116,7 +117,7 @@
         });
     }
 
-    Html5Player.prototype = new BasePlayer;
+    Html5Player.prototype = new BasePlayer();
     Html5Player.prototype.parent = BasePlayer;
     Html5Player.prototype.constructor = Html5Player;
 
@@ -158,13 +159,17 @@
 
     Html5Player.prototype.next = function(){
         this.toNext();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
         return this;
     };
 
     Html5Player.prototype.prev = function(){
         this.toPrev();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
     };
 
     Html5Player.prototype.setVolume = function(volume){
@@ -176,13 +181,13 @@
     };
 
     Html5Player.prototype.onStartPlay = function(){
-        if(typeof this.options.onStartPlay == 'function') {
+        if(typeof this.options.onStartPlay === 'function') {
             this.options.onStartPlay();
         }
     };
 
     Html5Player.prototype.onPlay = function(){
-        if(typeof this.options.onPlay == 'function') {
+        if(typeof this.options.onPlay === 'function') {
             this.options.onPlay();
         }
     };
@@ -197,7 +202,7 @@
         this.parent.apply(this, arguments);
     }
 
-    UppodPlayer.prototype = new BasePlayer;
+    UppodPlayer.prototype = new BasePlayer();
     UppodPlayer.prototype.parent = BasePlayer;
     UppodPlayer.prototype.constructor = UppodPlayer;
 
@@ -223,13 +228,17 @@
 
     UppodPlayer.prototype.next = function(){
         this.toNext();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
         return this;
     };
 
     UppodPlayer.prototype.prev = function(){
         this.toPrev();
-        this.inPlay() && this.play();
+        if (this.inPlay()) {
+            this.play();
+        }
     };
 
     UppodPlayer.prototype.setVolume = function(volume){
@@ -243,10 +252,10 @@
         options = options || {};
         options.width = options.width || 1;
         options.height = options.height || 1;
-        options.arguments = options.arguments || {};
+        options['arguments'] = options['arguments'] || {};
         checkOptions(options);
 
-        var isMSIE = (document.documentElement.style.scrollbar3dLightColor != undefined),
+        var isMSIE = ('\v'=='v'),
             obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
 
         if (!isMSIE) {
@@ -260,7 +269,7 @@
 
         var param_flashvars = document.createElement("param");
         param_flashvars.setAttribute("name", "flashvars");
-        param_flashvars.setAttribute("value", createArgs(options.arguments));
+        param_flashvars.setAttribute("value", createArgs(options['arguments']));
         obj.appendChild(param_flashvars);
         document.body.appendChild(obj);
         return obj;
@@ -273,8 +282,12 @@
         }
 
         function checkOptions(options){
-            if(!options.movie) throw Error('options.movie does not exist');
-            if(!options.id)throw  Error('options.id does not exist');
+            if (!options.movie) {
+                throw Error('options.movie does not exist');
+            }
+            if (!options.id) {
+                throw  Error('options.id does not exist');
+            }
         }
 
         function createArgs(args){
@@ -282,8 +295,9 @@
             var result = [];
             var arg;
             for(arg in args){
-                if(!args.hasOwnProperty(arg))continue;
-                result.push(arg+'='+args[arg]);
+                if(args.hasOwnProperty(arg)) {
+                    result.push(arg+'='+args[arg]);
+                }
             }
             return result.join('&');
         }
