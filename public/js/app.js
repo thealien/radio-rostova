@@ -49,9 +49,7 @@
         if (!time.length) {
             alert('Неверный формат времени. Введите в виде чч:мм');
         }
-        if (time[0].length === 1) {
-            time[0] = '0'+time[0];
-        }
+        time[0] = zeroFill(time[0], 2);
         time = time.concat(['00']).join(':');
 
         var dt = new Date(date + 'T' + time+getGMTOffset());
@@ -169,15 +167,15 @@
 
     function getTime(date){
         return [
-            String(date.getHours()).replace(/^(\d){1}$/, '0$1'),
-            String(date.getMinutes()).replace(/^(\d){1}$/, '0$1')
+            zeroFill(date.getHours(), 2),
+            zeroFill(date.getMinutes(), 2)
         ].join(':');
     }
 
     function getDate (date) {
         return [
-            String(date.getDate()).replace(/^(\d){1}$/, '0$1'),
-            date.getMonth()+1,
+            zeroFill(date.getDate(), 2),
+            zeroFill(date.getMonth()+1, 2),
             String(date.getFullYear()).replace(/^(\d){2}/, '')
         ].join('.');
     }
@@ -188,6 +186,15 @@
         tz = String(Math.abs(tz));
         if (tz.length<2) { tz = '0'+tz; }
         return sign+tz+':00';
+    }
+
+    function zeroFill(value, count){
+        count = Number(count);
+        var result = String(value);
+        if (count && result.length < count) {
+            result = (new Array(count-result.length+1)).join('0') + value;
+        }
+        return result;
     }
 }(window));
 
