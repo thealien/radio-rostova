@@ -111,6 +111,17 @@ div.socials .clear {
     position: relative;
 }
 
+#hand-pointer {
+    background: url("../images/hand-pointer-finger.png") no-repeat scroll 0 0 transparent;
+    height: 75px;
+    width: 100px;
+    position: absolute;
+    left: -105px;
+    top: -17px;
+    cursor: help;
+    display: none;
+}
+
 #track-searcher .tab-button {
     background: url(../images/search/bg.png) repeat;
     position: absolute;

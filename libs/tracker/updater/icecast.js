@@ -1,3 +1,5 @@
+'use strict';
+
 var client = require('../client/icecast');
 
 function IcecastUpdater (config) {
@@ -11,8 +13,8 @@ IcecastUpdater.prototype.update = function (data) {
     for (; i--; ) {
         this.client.updateMount(mounts[i], data);
     }
-}
+};
 
 exports.create = function (config) {
     return new IcecastUpdater(config);
-}
+};

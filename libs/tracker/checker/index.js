@@ -1,13 +1,7 @@
-var lastfm = require('./lastfm');
-
-exports.create = function (config) {
-    var checker;
-    switch (config.type) {
-        case 'lastfm':
-            checker = lastfm;
-            break;
-        default:
-            throw Error('Unknown checker type ' + config.type);
+'use strict';
+exports.create = function (config, modules) {
+    if (!modules[config.type]) {
+        throw new Error('No checker module for ' + config.type);
     }
-    return checker.create(config.config);
-}
+    return modules[config.type].create(config.config);
+};

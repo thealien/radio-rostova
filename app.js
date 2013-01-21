@@ -4,6 +4,7 @@ var express = require('express'),
     http = require('http'),
     routes = require('./routes'),
     data_tracker = require('./libs/tracker/');
+    //data_tracker = require('data-tracker');
 
 // application
 var app = express();
@@ -53,9 +54,9 @@ io.configure('production', function(){
     ]);
 });
 
-tracker.on('trackUpdate', function(name, track){
-    console.log(new Date(), tracker.format(track));
-    if (name == 'radiorostov') {
+tracker.on('dataUpdate', function(name, track, formattedTrack){
+    console.log(new Date(), formattedTrack);
+    if (name === 'radiorostov') {
         io.sockets.emit('trackUpdate', track);
     }
 });
@@ -63,5 +64,5 @@ tracker.on('trackUpdate', function(name, track){
 tracker.start();
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('trackUpdate', tracker.getCurrentTrack('radiorostov'));
+    socket.emit('trackUpdate', tracker.getCurrentData('radiorostov'));
 });

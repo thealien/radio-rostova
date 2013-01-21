@@ -1,3 +1,5 @@
+'use strict';
+
 var http = require('http'),
     querystring = require('querystring');
 
@@ -6,35 +8,35 @@ var defaultFormat= 'json';
 
 function LastFmClient (apiKey) {
     if (apiKey === undefined) {
-        throw Error('apiKey is undefined');
+        throw new Error('apiKey is undefined');
     }
 
     var key = apiKey;
     this.getApiKey = function () {
         return key;
-    }
+    };
     this.setApiKey = function (newKey) {
         key = newKey;
         return this;
-    }
+    };
 
     var apiHost = defaultApiHost;
     this.getApiHost = function () {
         return apiHost;
-    }
+    };
     this.setApiHost = function (newApiHost) {
         apiHost = newApiHost;
         return this;
-    }
+    };
 
     var format = defaultFormat;
     this.getFormat = function () {
         return format;
-    }
+    };
     this.setFormat = function(newFormat){
         format = newFormat;
         return this;
-    }
+    };
 }
 
 LastFmClient.prototype.request = function(method, options, callback) {
@@ -60,10 +62,10 @@ LastFmClient.prototype.request = function(method, options, callback) {
             }
             catch (e) {
                 data = null;
-                console.log('lastfm error. code', res.statusCode)
+                console.log('lastfm error. code', res.statusCode);
             }
             callback(data);
-        })
+        });
     })
         .on('error', function(e) {
             console.log("Got error: " + e.message);

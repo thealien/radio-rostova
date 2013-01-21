@@ -21,6 +21,10 @@ sources.push({
         }
     },
 
+    formatter: function (data) {
+        return util.format('%s - %s', data.artist, data.name);
+    },
+
     modifiers: [
         function (data){
             var replaces = {

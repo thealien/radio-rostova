@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "*",
     "jade": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "data-tracker": "git://github.com/thealien/data-tracker.git"
   }
 }

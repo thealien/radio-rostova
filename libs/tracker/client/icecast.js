@@ -1,20 +1,22 @@
+'use strict';
+
 var querystring = require('querystring'),
     http = require('http');
 
 function IcecastClient (host, port, username, password) {
     this.getHost = function () {
         return host;
-    }
+    };
     this.getPort = function () {
         return port;
-    }
+    };
     this.getUsername = function () {
         return username;
-    }
+    };
     this.getPassword = function () {
         return password;
-    }
-};
+    };
+}
 
 IcecastClient.prototype.updateMount = function (mount, data) {
     var buf = new Buffer(data);
@@ -35,8 +37,9 @@ IcecastClient.prototype.request = function (data) {
         auth: [this.getUsername(), this.getPassword()].join(':')
     };
     for (var field in data) {
-        if (!data.hasOwnProperty(field)) continue;
-        ops[field] = data[field];
+        if (data.hasOwnProperty(field)) {
+            ops[field] = data[field];
+        }
     }
     http.get(ops);
 };

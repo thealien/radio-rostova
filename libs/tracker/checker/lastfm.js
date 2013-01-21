@@ -1,8 +1,8 @@
+'use strict';
+
 var EventEmitter = require("events").EventEmitter,
     util = require('util'),
     client = require('../client/lastfm');
-
-
 
 function LastfmChecker (config) {
     this.config = config;
@@ -13,34 +13,37 @@ function LastfmChecker (config) {
     var currentTrack = {};
     this.getCurrentTrack = function () {
         return currentTrack;
-    }
+    };
     this.setCurrentTrack = function (track) {
         currentTrack = track;
-        this.emit('trackUpdate', this, track)
+        this.emit('dataUpdate', this, track);
         return this;
-    }
+    };
+    this.getCurrentData = this.getCurrentTrack;
 
     var prevTrack = {};
     this.getPrevTrack = function () {
         return prevTrack;
-    }
+    };
     this.setPrevTrack = function (track) {
         prevTrack = track;
         return this;
-    }
+    };
 }
 
-LastfmChecker.prototype = new EventEmitter;
+LastfmChecker.prototype = new EventEmitter();
 LastfmChecker.constructor = LastfmChecker;
 
 LastfmChecker.prototype.getClient = function () {
     return this.client;
-}
+};
 
+/*
 LastfmChecker.prototype.setClient = function (client) {
     this.client = client;
     return this;
-}
+};
+*/
 
 LastfmChecker.prototype.check = function () {
     var checker = this;
@@ -66,11 +69,9 @@ LastfmChecker.prototype.check = function () {
             }
 
             if(
-                (checker.inPause && checker.getPrevTrack().ts)   // включился джингл/реклама
-                    ||
-                    ((prevTrack.ts > (checker.getPrevTrack().ts || 0))) // сменилась песня, судя по времени
-                    ||
-                    (checker.getCurrentTrack().mbid != currentTrack.mbid)    // сменилась песня, судя по mbid
+                (checker.inPause && checker.getPrevTrack().ts) ||       // включился джингл/реклама
+                ((prevTrack.ts > (checker.getPrevTrack().ts || 0))) ||  // сменилась песня, судя по времени
+                (checker.getCurrentTrack().mbid !== currentTrack.mbid)   // сменилась песня, судя по mbid
                 )
             {
                 checker.setPrevTrack(prevTrack);
@@ -91,7 +92,7 @@ LastfmChecker.prototype.check = function () {
         );
     });
     return true;
-}
+};
 
 LastfmChecker.prototype.parse = function (data) {
     var result = false;
@@ -110,21 +111,21 @@ LastfmChecker.prototype.parse = function (data) {
         console.log(e);
     }
     return result;
-}
+};
 
 LastfmChecker.prototype.getName = function () {
     return this.name;
-}
+};
 
 LastfmChecker.prototype.setName = function (name) {
     this.name = name;
     return this;
-}
+};
 
 LastfmChecker.prototype.start = function () {
     this.check();
-}
+};
 
 exports.create = function (config) {
     return new LastfmChecker(config);
-}
+};

@@ -38,13 +38,13 @@
         clearSearchResult(true);
 
         // date
-        var date = inputs.date.val();
+        var date = trim(inputs.date.val());
         date = date.split('.').reverse();
         if (date[0].length < 4) { date[0] = '20'+date[0]; }
         date = date.join('-');
 
         // time
-        var time = inputs.time.val();
+        var time = trim(inputs.time.val());
             time = time.split(':');
         if (!time.length) {
             alert('Неверный формат времени. Введите в виде чч:мм');
@@ -197,6 +197,41 @@
         return result;
     }
 }(window));
+
+// Hand Pointer
+(function (window, undefined) {
+    var $, $hand, $tabButton;
+    var hideHelper = Number(getCookie('search-helper'));
+    if (!hideHelper) {
+        $ = window.$;
+        $hand = $('#hand-pointer');
+        $tabButton = $('#track-searcher .tab-button.search:first');
+        $tabButton.click(function () {
+            if (!hideHelper) {
+                hideHelper = true;
+                var date = new Date();
+                date.setFullYear(date.getFullYear()+1);
+                setCookie('search-helper', 1, {
+                    expires: date
+                });
+                $hand.remove();
+            }
+        });
+        $hand.show();
+        animate(false);
+    }
+    function animate (forward) {
+        if (hideHelper) { return; }
+        $hand.animate({
+            left: (forward?'+':'-')+'=20'
+        },{
+            duration: 500,
+            complete: function () {
+                animate(!forward);
+            }
+        });
+    }
+})(window);
 
 // tracker
 (function(window, undefined){
@@ -383,39 +418,6 @@
             controls.url.attr('href', player.getCurrentFile() + '.m3u').text(player.getCurrentFile());
         }
 
-        function getCookie(name) {
-            var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+\^])/g, '\\$1') + "=([^;]*)"));
-            return matches ? decodeURIComponent(matches[1]) : undefined;
-        }
-
-
-        function setCookie(name, value, props) {
-            props = props || {};
-            var exp = props.expires;
-            if (typeof exp === "number" && exp) {
-                var d = new Date();
-                d.setTime(d.getTime() + exp * 1000);
-                exp = props.expires = d;
-            }
-            if (exp && exp.toUTCString) {
-                props.expires = exp.toUTCString();
-            }
-
-            value = encodeURIComponent(value);
-            var updatedCookie = name + "=" + value;
-            var propName;
-            for (propName in props) {
-                if (props.hasOwnProperty(propName)) {
-                    updatedCookie += "; " + propName;
-                    var propValue = props[propName];
-                    if (propValue !== true) {
-                        updatedCookie += "=" + propValue;
-                    }
-                }
-            }
-            window.document.cookie = updatedCookie;
-        }
-
         function loadVolume(){
             var volume = parseInt(getCookie('playerVolume'), 10);
             if(isNaN(volume) || volume < 0 || volume > 100) {
@@ -468,3 +470,43 @@
         });
     }
 })(window);
+
+function trim(str) {
+    if (typeof(str) !== "string") {
+        return str;
+    }
+    return str.replace(/^\s+|\s+$/g,'');
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+\^])/g, '\\$1') + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+
+function setCookie(name, value, props) {
+    props = props || {};
+    var exp = props.expires;
+    if (typeof exp === "number" && exp) {
+        var d = new Date();
+        d.setTime(d.getTime() + exp * 1000);
+        exp = props.expires = d;
+    }
+    if (exp && exp.toUTCString) {
+        props.expires = exp.toUTCString();
+    }
+
+    value = encodeURIComponent(value);
+    var updatedCookie = name + "=" + value;
+    var propName;
+    for (propName in props) {
+        if (props.hasOwnProperty(propName)) {
+            updatedCookie += "; " + propName;
+            var propValue = props[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+    }
+    window.document.cookie = updatedCookie;
+}
