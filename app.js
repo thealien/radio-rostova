@@ -3,8 +3,8 @@ var express = require('express'),
     socketio = require('socket.io'),
     http = require('http'),
     routes = require('./routes'),
-    data_tracker = require('./libs/tracker/');
-    //data_tracker = require('data-tracker');
+    //data_tracker = require('./libs/tracker/');
+    data_tracker = require('data-tracker');
 
 // application
 var app = express();

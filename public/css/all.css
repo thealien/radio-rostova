@@ -59,7 +59,7 @@ h1.title {
     text-align: center;
 }
 div.socials {
-    width: 144px;
+    width: 180px;
     margin: 0 auto;
     white-space: nowrap;
 }
@@ -90,7 +90,7 @@ a.socials.lastfm {
     background-position: -96px 0;
 }
 a.socials.googleplus {
-    background-position: -30px 0;
+    background-position: -64px 0;
 }
 a.socials.odnokl {
     background-position: -40px 0;
