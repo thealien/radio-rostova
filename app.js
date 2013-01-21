@@ -1,6 +1,6 @@
 // libs
-var express = require('./express'),
-    socketio = require('./socket.io'),
+var express = require('express'),
+    socketio = require('socket.io'),
     http = require('http'),
     routes = require('./routes'),
     data_tracker = require('./libs/tracker/');
