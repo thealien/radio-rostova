@@ -3,11 +3,16 @@ var express = require('express'),
     socketio = require('socket.io'),
     http = require('http'),
     routes = require('./routes'),
-    //data_tracker = require('./libs/tracker/');
-    data_tracker = require('data-tracker');
+    data_tracker;
 
-// application
 var app = express();
+
+var data_tracker_lib = './libs/tracker/';
+app.configure('production', function(){
+    data_tracker_lib = 'data-tracker';
+});
+data_tracker = require(data_tracker_lib);
+
 app.configure(function () {
     app.set('port', process.env.PORT || 6789);
     app.set('views', __dirname + '/views');
@@ -18,6 +23,7 @@ app.configure(function () {
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
 });
+
 app.configure('development', function () {
     app.use(express.logger('dev'));
     app.use(express.errorHandler());
