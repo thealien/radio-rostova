@@ -279,8 +279,6 @@ div.socials .clear {
     clear: both;
 }
 
-
-
 /* *** PLAYER *** */
 #rr-player {
     width: 502px;
@@ -345,16 +343,55 @@ div.socials .clear {
 #rr-player .track-info .track .artist {
     font-size: 11px;
 }
-#rr-player .track-info .track a.like {
+#like {
     display: block;
+    min-width: 16px;
+    height: 16px;
+    background: url(../images/player/like-social.png) no-repeat 5px 0 #666666;
+
+    position: absolute;
+    top: 110px;
+    cursor: default;
+    left: 468px;
+    padding: 4px 4px 3px;
+    border: solid 1px #666;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    width: 16px;
+}
+
+#like:hover {
+    width: 68px;
+    background-image: none;
+}
+#like .target {
+    float: left;
+    background: url(../images/player/like-social.png) no-repeat;
     width: 16px;
     height: 16px;
-    background: url(http://forpics.ru/i/20121104/91adce9178b.png) no-repeat;
-    position: absolute;
-    right: 10px;
-    top: 15px;
+    display: block;
     cursor: pointer;
+    margin-left: 5px;
+    display: none;
 }
+#like .target.facebook {
+    background-position: 0 -29px;
+}
+#like .target.vkontakte {
+    background-position: 0 -67px;
+}
+#like .target.twitter {
+    background-position: 0 -86px;
+}
+#like .target.google {
+    background-position: 0 -48px;
+}
+
+#like:hover .target {
+    display: block;
+}
+
 
 #rr-player .track-info .controls {
     position: absolute;
@@ -483,6 +520,8 @@ div.socials .clear {
 #rr-player .track-info .volume .value {
     float: right;
 }
+
+
 
 
 

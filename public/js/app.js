@@ -203,7 +203,7 @@
     var $, $hand, $tabButton;
     var hideHelper = Number(getCookie('search-helper'));
     if (!hideHelper) {
-        $ = window.$;
+        $ = window.jQuery;
         $hand = $('#hand-pointer');
         $tabButton = $('#track-searcher .tab-button.search:first');
         $tabButton.click(function () {
@@ -238,11 +238,13 @@
     var currentTrack = null;
     var $ = window.jQuery;
     var l = window.location;
+    var win = $(window);
     var host = l.protocol + '//'+ l.host+':6789';
     var socket = io.connect(host);
     socket.on('trackUpdate', function (data) {
         currentTrack = parseTrackData(data);
         if (!currentTrack) { return false; }
+        win.trigger('trackUpdate', currentTrack);
         updateTrack(currentTrack);
     });
 
@@ -275,6 +277,42 @@
             url:    track.url || null,
             image: image
         };
+    }
+})(window);
+
+(function (window, undefined) {
+    var $ = window.jQuery;
+    var $likeIcon = $('#like');
+    var $fbLike = $likeIcon.children('.target.facebook:first');
+    var $vkLike = $likeIcon.children('.target.vkontakte:first');
+    var $twLike = $likeIcon.children('.target.twitter:first');
+    //var $googleLike = $likeIcon.children('.target.google:first');
+
+    $(window).on('trackUpdate', function (e, track) {
+        if(track.artist === 'Радио Ростова на 101.6 FM' || track.artist === 'Радио Ростова') {
+            $likeIcon.hide();
+        } else {
+            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова!';
+            track.url = 'http://live.radiorostov.ru';
+            updateFbLike(track);
+            updateVkLike(track);
+            updateTwLike(track);
+            //updateGoogleLike(track);
+            $likeIcon.show();
+        }
+    });
+
+    function updateFbLike (data) {
+        var url = 'http://www.facebook.com/sharer/sharer.php?s=100&p[title]=Радио Ростова 101.6 FM&p[summary]='+encodeURIComponent(data.text)+'&p[url]='+encodeURIComponent(data.url)+'&p[images][0]='+encodeURIComponent(data.image);
+        $fbLike.attr('href', url);
+    }
+    function updateVkLike (data) {
+        var url = 'http://vk.com/share.php?url='+encodeURIComponent(data.url)+'&description='+encodeURIComponent(data.text)+'&title=Радио Ростова 101.6 FM&image='+encodeURIComponent(data.image)+'&noparse=true';
+        $vkLike.attr('href', url);
+    }
+    function updateTwLike (data) {
+        var url = 'http://twitter.com/home?status='+encodeURIComponent(data.text)+' - '+encodeURIComponent(data.url);
+        $twLike.attr('href', url);
     }
 })(window);
 
