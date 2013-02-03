@@ -308,83 +308,80 @@
     window.Html5Player = Html5Player;
     window.UppodPlayer = UppodPlayer;
 
-})(window);
-
-//	JavaScript API 2.0 for Uppod 1+
+})(window);//	JavaScript API 2.0 for Uppod 1+
 //  http://uppod.ru/js
 
-// Events
-
-function uppodEvent(playerID,event) {
-    switch(event){
-
-        case 'init':
-
-            break;
-
-        case 'start':
-
-            break;
-
-        case 'play':
-
-            break;
-
-        case 'pause':
-
-            break;
-
-        case 'stop':
-
-            break;
-
-        case 'seek':
-
-            break;
-
-        case 'loaded':
-
-            break;
-
-        case 'end':
-
-            break;
-
-        case 'download':
-
-            break;
-
-        case 'quality':
-
-            break;
-
-        case 'error':
-
-            break;
-
-        case 'ad_end':
-
-            break;
-
-        case 'pl':
-
-            break;
-    }
-
-}
-
-// Commands
-
-function uppodSend(playerID,com,callback) {
-    document.getElementById(playerID).sendToUppod(com);
-}
-
-// Requests
-
-function uppodGet(playerID,com,callback) {
-    return document.getElementById(playerID).getUppod(com);
-}
-
+	// Events
+	
+	function uppodEvent(playerID,event) { 
+		switch(event){
+		
+			case 'init': 
+			
+				break;
+				
+			case 'start': 
+				
+				break;
+			
+			case 'play': 
+				
+				break;
+				
+			case 'pause': 
+				
+				break;
+				
+			case 'stop': 
+				
+				break;
+				
+			case 'seek': 
+							
+				break;
+				
+			case 'loaded':
+				
+				break;
+				
+			case 'end':
+				
+				break;
+				
+			case 'download':
+				
+				break;
+				
+			case 'quality':
+				
+				break;
+			
+			case 'error':
+				
+				break;
+					
+			case 'ad_end':
+				
+				break;
+				
+			case 'pl':
+				
+				break;
+		}
+		
+	}
+	
+	// Commands
+	
+	function uppodSend(playerID,com,callback) {
+		document.getElementById(playerID).sendToUppod(com);
+	}
+	
+	// Requests
+	
+	function uppodGet(playerID,com,callback) {
+		return document.getElementById(playerID).getUppod(com);
+	}
 
 (function(window, undefined){
 
@@ -429,9 +426,7 @@ function uppodGet(playerID,com,callback) {
     // exports
     window.LastFm = LastFm;
 
-})(window);
-
-/*global Html5Player, UppodPlayer, VK, io, LastFm, ActiveXObject */
+})(window);/*global Html5Player, UppodPlayer, VK, io, LastFm, ActiveXObject */
 // track-searcher
 (function(window, undefined){
     var $ = window.jQuery;
@@ -478,7 +473,7 @@ function uppodGet(playerID,com,callback) {
 
         // time
         var time = trim(inputs.time.val());
-        time = time.split(':');
+            time = time.split(':');
         if (!time.length) {
             alert('Неверный формат времени. Введите в виде чч:мм');
         }
@@ -545,11 +540,11 @@ function uppodGet(playerID,com,callback) {
             var elem = '<li class="track '+cls+'">' +
                 '<img class="poster" src="'+track.image[0]['#text']+'">' +
                 '<div class="info">' +
-                '<a class="name" target="_blank" href="'+track.url+'">'+track.name+'</a>' +
-                '<a class="artist" target="_blank" href="'+track.url+'">'+track.artist['#text']+'</a>' +
-                '<div class="dt">' +
-                '<span class="time">'+getTime(trackDt)+'</span><br><span class="date"> '+getDate(trackDt)+'</span>' +
-                '</div>' +
+                    '<a class="name" target="_blank" href="'+track.url+'">'+track.name+'</a>' +
+                    '<a class="artist" target="_blank" href="'+track.url+'">'+track.artist['#text']+'</a>' +
+                    '<div class="dt">' +
+                        '<span class="time">'+getTime(trackDt)+'</span><br><span class="date"> '+getDate(trackDt)+'</span>' +
+                    '</div>' +
                 '</div>' +
                 '<div class="clear"></div>' +
                 '</li>';
@@ -713,19 +708,35 @@ function uppodGet(playerID,com,callback) {
     }
 })(window);
 
+// like button
 (function (window, undefined) {
-    var $ = window.jQuery;
+    var $ = window.jQuery, afterShareClick;
     var $likeIcon = $('#like');
     var $fbLike = $likeIcon.children('.target.facebook:first');
     var $vkLike = $likeIcon.children('.target.vkontakte:first');
     var $twLike = $likeIcon.children('.target.twitter:first');
     //var $googleLike = $likeIcon.children('.target.google:first');
+    if (isTouchDevice()) {
+        $likeIcon.addClass('touch');
+        $likeIcon.on('click', function () {
+            $likeIcon.addClass('touched');
+            return false;
+        });
+        afterShareClick = function (e) {
+            e.stopPropagation();
+            $likeIcon.removeClass('touched');
+        };
+        $fbLike.on('click', afterShareClick);
+        $vkLike.on('click', afterShareClick);
+        $twLike.on('click', afterShareClick);
+        $(document).on('click', afterShareClick);
+    }
 
     $(window).on('trackUpdate', function (e, track) {
         if(track.artist === 'Радио Ростова на 101.6 FM' || track.artist === 'Радио Ростова') {
             $likeIcon.hide();
         } else {
-            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова!';
+            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова';
             track.url = 'http://live.radiorostov.ru';
             updateFbLike(track);
             updateVkLike(track);
@@ -744,7 +755,8 @@ function uppodGet(playerID,com,callback) {
         $vkLike.attr('href', url);
     }
     function updateTwLike (data) {
-        var url = 'http://twitter.com/home?status='+encodeURIComponent(data.text)+' - '+encodeURIComponent(data.url);
+        var text = '#nowlistening "'+ data.artist+' - ' + data.name + '" on @radiorostova';
+        var url = 'http://twitter.com/home?status='+encodeURIComponent(text)+' - '+encodeURIComponent(data.url);
         $twLike.attr('href', url);
     }
 })(window);
@@ -954,7 +966,6 @@ function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-
 function setCookie(name, value, props) {
     props = props || {};
     var exp = props.expires;
@@ -980,4 +991,8 @@ function setCookie(name, value, props) {
         }
     }
     window.document.cookie = updatedCookie;
+}
+
+function isTouchDevice () {
+    return !!("ontouchstart" in document.documentElement);
 }

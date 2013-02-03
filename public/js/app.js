@@ -280,19 +280,35 @@
     }
 })(window);
 
+// like button
 (function (window, undefined) {
-    var $ = window.jQuery;
+    var $ = window.jQuery, afterShareClick;
     var $likeIcon = $('#like');
     var $fbLike = $likeIcon.children('.target.facebook:first');
     var $vkLike = $likeIcon.children('.target.vkontakte:first');
     var $twLike = $likeIcon.children('.target.twitter:first');
     //var $googleLike = $likeIcon.children('.target.google:first');
+    if (isTouchDevice()) {
+        $likeIcon.addClass('touch');
+        $likeIcon.on('click', function () {
+            $likeIcon.addClass('touched');
+            return false;
+        });
+        afterShareClick = function (e) {
+            e.stopPropagation();
+            $likeIcon.removeClass('touched');
+        };
+        $fbLike.on('click', afterShareClick);
+        $vkLike.on('click', afterShareClick);
+        $twLike.on('click', afterShareClick);
+        $(document).on('click', afterShareClick);
+    }
 
     $(window).on('trackUpdate', function (e, track) {
         if(track.artist === 'Радио Ростова на 101.6 FM' || track.artist === 'Радио Ростова') {
             $likeIcon.hide();
         } else {
-            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова!';
+            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова';
             track.url = 'http://live.radiorostov.ru';
             updateFbLike(track);
             updateVkLike(track);
@@ -311,7 +327,8 @@
         $vkLike.attr('href', url);
     }
     function updateTwLike (data) {
-        var url = 'http://twitter.com/home?status='+encodeURIComponent(data.text)+' - '+encodeURIComponent(data.url);
+        var text = '#nowlistening "'+ data.artist+' - ' + data.name + '" on @radiorostova';
+        var url = 'http://twitter.com/home?status='+encodeURIComponent(text)+' - '+encodeURIComponent(data.url);
         $twLike.attr('href', url);
     }
 })(window);
@@ -521,7 +538,6 @@ function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-
 function setCookie(name, value, props) {
     props = props || {};
     var exp = props.expires;
@@ -547,4 +563,8 @@ function setCookie(name, value, props) {
         }
     }
     window.document.cookie = updatedCookie;
+}
+
+function isTouchDevice () {
+    return !!("ontouchstart" in document.documentElement);
 }

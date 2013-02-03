@@ -1,0 +1,1 @@
+cat player.js uppod/uppod_api.js lastFmClient.js app.js > all.js && yui-compressor all.js > all.min.js

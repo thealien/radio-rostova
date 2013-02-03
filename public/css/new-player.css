@@ -66,21 +66,22 @@
     display: block;
     min-width: 16px;
     height: 16px;
-    background: url(../images/player/like-social.png) no-repeat 5px 0 #666666;
+    background: url(../images/player/like-social.png) no-repeat 4px 0 #666666;
 
     position: absolute;
-    top: 110px;
     cursor: default;
-    left: 468px;
-    padding: 4px 4px 3px;
+    padding: 3px;
     border: solid 1px #666;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
     width: 16px;
+    left: 472px;
+    top: 120px;
 }
 
-#like:hover {
+#like:hover,
+#like.touch.touched{
     width: 68px;
     background-image: none;
 }
@@ -89,7 +90,6 @@
     background: url(../images/player/like-social.png) no-repeat;
     width: 16px;
     height: 16px;
-    display: block;
     cursor: pointer;
     margin-left: 5px;
     display: none;
@@ -107,7 +107,8 @@
     background-position: 0 -48px;
 }
 
-#like:hover .target {
+#like:hover .target,
+#like.touch.touched .target{
     display: block;
 }
 
