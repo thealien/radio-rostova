@@ -34,19 +34,33 @@
 
     updateDayInput('today', true);
 
-    inputs.search.click(function(){
-        clearSearchResult(true);
 
+    inputs.search.on('click', preSearch);
+    inputs.date.on('keypress', onInputKePress);
+    inputs.time.on('keypress', onInputKePress);
+
+    function onInputKePress (e) {
+        if (e.keyCode === 13) {
+            preSearch();
+        }
+    }
+
+    function preSearch () {
         // date
         var date = trim(inputs.date.val());
-        date = date.split('.').reverse();
+        date = date.split(/[^\d]/).reverse();
+        if (date.length < 3) {
+            alert('Неверный формат даты. Введите в виде дд.мм.гг');
+        }
+        date[1] = zeroFill(date[1], 2);
+        date[2] = zeroFill(date[2], 2);
         if (date[0].length < 4) { date[0] = '20'+date[0]; }
         date = date.join('-');
 
         // time
         var time = trim(inputs.time.val());
-            time = time.split(':');
-        if (!time.length) {
+        time = time.split(/[^\d]/);
+        if (time.length < 2) {
             alert('Неверный формат времени. Введите в виде чч:мм');
         }
         time[0] = zeroFill(time[0], 2);
@@ -57,8 +71,9 @@
             alert('Ошибочная дата. Повнимательнее.');
             return false;
         }
+        clearSearchResult(true);
         searchTrack(dt);
-    });
+    }
 
     function searchTrack (date) {
         var ts = parseInt((+date)/1000, 10);
