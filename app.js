@@ -71,4 +71,8 @@ tracker.start();
 
 io.sockets.on('connection', function (socket) {
     socket.emit('trackUpdate', tracker.getCurrentData('radiorostov'));
+    socket.on('error', function (e) {
+        console.error('socketio error');
+        console.error(e);
+    });
 });
