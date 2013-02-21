@@ -323,11 +323,12 @@
         if(track.artist === 'Радио Ростова на 101.6 FM' || track.artist === 'Радио Ростова') {
             $likeIcon.hide();
         } else {
-            track.text = 'Я слушаю "'+ track.artist+' - ' + track.name + '" на Радио Ростова';
-            track.url = 'http://live.radiorostov.ru';
-            updateFbLike(track);
-            updateVkLike(track);
-            updateTwLike(track);
+            var tr = $.extend({}, track);
+            tr.text = 'Я слушаю "'+ tr.artist+' - ' + tr.name + '" на Радио Ростова';
+            tr.url = 'http://live.radiorostov.ru';
+            updateFbLike(tr);
+            updateVkLike(tr);
+            updateTwLike(tr);
             //updateGoogleLike(track);
             $likeIcon.show();
         }
