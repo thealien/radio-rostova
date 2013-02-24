@@ -448,8 +448,8 @@
             if (v !== volume || force){
                 controls.volume.slider.css('width', v+'%');
                 controls.volume.value.text( v+'%');
-                player.setVolume(volume);
                 volume = v;
+                player.setVolume(volume);
                 saveVolume(volume);
             }
         }
