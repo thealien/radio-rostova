@@ -73,6 +73,10 @@ a.socials {
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    -o-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -icab-border-radius: 2px;
 }
 a.socials:hover {
     box-shadow: 0 0 5px #eeeeee;
@@ -104,9 +108,14 @@ div.socials .clear {
 #track-searcher {
     margin: 0 auto;
     width: 470px;
+    border-radius: 0 0 10px 10px;
     -webkit-border-radius: 0 0 10px 10px;
     -moz-border-radius: 0 0 10px 10px;
-    border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
+    -khtml-border-radius: 0 0 10px 10px;
+    -o-border-radius: 0 0 10px 10px;
+    -ms-border-radius: 0 0 10px 10px;
+    -icab-border-radius: 0 0 10px 10px;
     background: url(../images/search/panel-bg.png) 0 100% no-repeat;
     position: relative;
 }
@@ -131,6 +140,11 @@ div.socials .clear {
     border-radius: 0 0 8px 8px;
     -webkit-border-radius: 0 0 8px 8px;
     -moz-border-radius: 0 0 8px 8px;
+    -webkit-border-radius: 0 0 8px 8px;
+    -khtml-border-radius: 0 0 8px 8px;
+    -o-border-radius: 0 0 8px 8px;
+    -ms-border-radius: 0 0 8px 8px;
+    -icab-border-radius: 0 0 8px 8px;
 }
 #track-searcher .tab-button img.icon {
     margin: 4px 0 0 6px;
@@ -169,6 +183,11 @@ div.socials .clear {
     border-radius:3px;
     -webkit-border-radius:3px;
     -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    -khtml-border-radius:3px;
+    -o-border-radius:3px;
+    -ms-border-radius: 3px;
+    -icab-border-radius: 3px;
 }
 
 #track-searcher .form p.buttons a.close {
@@ -193,6 +212,13 @@ div.socials .clear {
     border-radius: 5px;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius: 5px;
+    -icab-border-radius: 5px;
+
+
     color: #333;
     text-align: center;
     width: 60px;
@@ -212,6 +238,11 @@ div.socials .clear {
     border-radius: 5px;
     -webkit-border-radius:5px;
     -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius: 5px;
+    -icab-border-radius: 5px;
     padding: 0 7px 2px;
     display: none;
 }
@@ -355,8 +386,12 @@ div.socials .clear {
     cursor: default;
     padding: 3px;
     border: solid 1px #666;
-    -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
+    -webkit-border-radius:12px;
+    -khtml-border-radius: 12px;
+    -o-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -icab-border-radius: 12px;
     border-radius: 12px;
     width: 16px;
     left: 472px;
@@ -395,7 +430,11 @@ div.socials .clear {
     display: block;
 }
 
-
+#rr-player-c {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
 #rr-player .track-info .controls {
     position: absolute;
     top: 57px;

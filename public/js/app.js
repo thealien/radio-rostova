@@ -1,4 +1,38 @@
 /*global Html5Player, UppodPlayer, VK, io, LastFm, ActiveXObject */
+// Date hack for IE8
+(function(){
+    var D= new Date('2011-06-02T09:34:29+02:00');
+    if(!D || +D!== 1307000069000){
+        Date.fromISO= function(s){
+            var day, tz,
+                rx=/^(\d{4}\-\d\d\-\d\d([tT][\d:\.]*)?)([zZ]|([+\-])(\d\d):(\d\d))?$/,
+                p= rx.exec(s) || [];
+            if(p[1]){
+                day= p[1].split(/\D/);
+                for(var i= 0, L= day.length; i<L; i++){
+                    day[i]= parseInt(day[i], 10) || 0;
+                }
+                day[1]-= 1;
+                day= new Date(Date.UTC.apply(Date, day));
+                if(!day.getDate()) return NaN;
+                if(p[5]){
+                    tz= (parseInt(p[5], 10)*60);
+                    if(p[6]) { tz+= parseInt(p[6], 10);}
+                    if(p[4] === '+') { tz*= -1; }
+                    if(tz) { day.setUTCMinutes(day.getUTCMinutes()+ tz);}
+                }
+                return day;
+            }
+            return NaN;
+        };
+    }
+    else{
+        Date.fromISO=function(s){
+            return new Date(s);
+        };
+    }
+})();
+
 // track-searcher
 (function(window, undefined){
     var $ = window.jQuery;
@@ -56,7 +90,6 @@
         date[2] = zeroFill(date[2], 2);
         if (date[0].length < 4) { date[0] = '20'+date[0]; }
         date = date.join('-');
-
         // time
         var time = trim(inputs.time.val());
         time = time.split(/[^\d]/);
@@ -66,7 +99,7 @@
         time[0] = zeroFill(time[0], 2);
         time = time.concat(['00']).join(':');
 
-        var dt = new Date(date + 'T' + time+getGMTOffset());
+        var dt = Date.fromISO(date + 'T' + time+getGMTOffset());
         if (isNaN(+dt)) {
             alert('Ошибочная дата. Повнимательнее.');
             return false;
@@ -363,7 +396,7 @@
 
     var player;
     // HTML5
-    if (Html5Player.isSupportFormat('mp3')) {
+    if (false && Html5Player.isSupportFormat('mp3')) {
         player = new Html5Player((new Audio()), {
             files: streams,
             onStartPlay: function(){
@@ -377,24 +410,26 @@
     }
     // FLASH
     else if(checkFlash()) {
-        var playerObj = UppodPlayer.createPlayerObject({
-            "movie":    'swf/uppod-audio.swf',
-            "id":       'player',
-            "arguments" :{
-                uid:    'player',
-                file:   'http%3A%2F%2Fzavalinka.in%3A8000%2Frostovradio',
-                st:     '/swf/youtube.txt'
-            }
-        });
-        playerObj.style.visibility = 'hidden';
-        player = new UppodPlayer(playerObj, {
-            files: streams
-        });
         window.uppodEvent = function(playerId, event){
             if (event === 'init') {
                 afterPlayerInit();
             }
         };
+
+        var playerObj = $(
+            '<object width="400" height="60" type="application/x-shockwave-flash" data="swf/uppod-audio.swf" id="rrplayer" style="visibility: visible;">' +
+                '<param name="movie" value="swf/uppod-audio.swf">'+
+                '<param name="id" value="rrplayer">' +
+                '<param name="allowScriptAccess" value="always">' +
+                '<param name="flashvars" value="uid=rrplayer&amp;st=/swf/youtube.txt&amp;file=http%3A%2F%2Fzavalinka.in%3A8000%2Frostovradio">' +
+                '</object>'
+        );
+
+        $(playerObj).appendTo($('#rr-player-c'));
+        player = new UppodPlayer(playerObj[0], {
+            files: streams
+        });
+
     }
     // NO FLASH
     else{
@@ -511,7 +546,6 @@
             }, 25);
         }
     }
-
     function checkFlash() {
         var hasFlash = false;
         try {

@@ -72,8 +72,12 @@
     cursor: default;
     padding: 3px;
     border: solid 1px #666;
-    -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
+    -webkit-border-radius:12px;
+    -khtml-border-radius: 12px;
+    -o-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -icab-border-radius: 12px;
     border-radius: 12px;
     width: 16px;
     left: 472px;
@@ -112,7 +116,11 @@
     display: block;
 }
 
-
+#rr-player-c {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
 #rr-player .track-info .controls {
     position: absolute;
     top: 57px;

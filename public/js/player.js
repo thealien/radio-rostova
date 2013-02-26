@@ -248,61 +248,6 @@
         return this.send('v' + volume);
     };
 
-    UppodPlayer.createPlayerObject = function(options){
-        options = options || {};
-        options.width = options.width || 1;
-        options.height = options.height || 1;
-        options['arguments'] = options['arguments'] || {};
-        checkOptions(options);
-
-        var isMSIE = ('\v'=='v'),
-            obj = (isMSIE) ? createIeObject(options.movie) : document.createElement("object");
-
-        if (!isMSIE) {
-            obj.setAttribute("type", "application/x-shockwave-flash");
-            obj.setAttribute("data", options.movie);
-        }
-
-        obj.setAttribute("id", options.id);
-        obj.setAttribute("width", options.width);
-        obj.setAttribute("height", options.height);
-
-        var param_flashvars = document.createElement("param");
-        param_flashvars.setAttribute("name", "flashvars");
-        param_flashvars.setAttribute("value", createArgs(options['arguments']));
-        obj.appendChild(param_flashvars);
-        document.body.appendChild(obj);
-        return obj;
-
-        // helpers
-        function createIeObject(url){
-            var div = document.createElement("div");
-            div.innerHTML = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'><param name='movie' value='" +url + "'></object>";
-            return div.firstChild;
-        }
-
-        function checkOptions(options){
-            if (!options.movie) {
-                throw Error('options.movie does not exist');
-            }
-            if (!options.id) {
-                throw  Error('options.id does not exist');
-            }
-        }
-
-        function createArgs(args){
-            args = args || {};
-            var result = [];
-            var arg;
-            for(arg in args){
-                if(args.hasOwnProperty(arg)) {
-                    result.push(arg+'='+args[arg]);
-                }
-            }
-            return result.join('&');
-        }
-    };
-
     // export
     window.BasePlayer = BasePlayer;
     window.Html5Player = Html5Player;
