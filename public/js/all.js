@@ -770,7 +770,7 @@
 
     var player;
     // HTML5
-    if (false && Html5Player.isSupportFormat('mp3')) {
+    if (Html5Player.isSupportFormat('mp3')) {
         player = new Html5Player((new Audio()), {
             files: streams,
             onStartPlay: function(){
