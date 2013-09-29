@@ -386,10 +386,9 @@
 (function(window, undefined){
     var $ = window.$;
     var streams = [
+        'http://live.radiorostov.ru:8000/rostovradiofm',
         'http://live.radiorostov.ru:8000/rostovradio',
-        'http://zavalinka.in:8000/rostovradio',
         'http://178.76.238.182:8000/rostovradio',
-        'http://zavalinka.in:8000/rostovradiofm',
         'http://178.76.238.182:8000/rostovradiofm',
         'http://81.19.85.204:80/rostov.mp3'
     ];
@@ -421,7 +420,7 @@
                 '<param name="movie" value="swf/uppod-audio.swf">'+
                 '<param name="id" value="rrplayer">' +
                 '<param name="allowScriptAccess" value="always">' +
-                '<param name="flashvars" value="uid=rrplayer&amp;st=/swf/youtube.txt&amp;file=http%3A%2F%2Fzavalinka.in%3A8000%2Frostovradio">' +
+                '<param name="flashvars" value="uid=rrplayer&amp;st=/swf/youtube.txt&amp;file=http%3A%2F%2Flive.radiorostov.ru%3A8000%2Frostovradiofm">' +
                 '</object>'
         );
 

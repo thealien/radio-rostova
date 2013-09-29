@@ -9,6 +9,6 @@
     "express": "*",
     "jade": "*",
     "socket.io": "*",
-    "data-tracker": "git://github.com/thealien/data-tracker.git"
+    "data-tracker": "*"
   }
 }
