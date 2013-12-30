@@ -14,7 +14,7 @@
                 }
                 day[1]-= 1;
                 day= new Date(Date.UTC.apply(Date, day));
-                if(!day.getDate()) return NaN;
+                if(!day.getDate()) { return NaN; }
                 if(p[5]){
                     tz= (parseInt(p[5], 10)*60);
                     if(p[6]) { tz+= parseInt(p[6], 10);}
@@ -386,12 +386,13 @@
 (function(window, undefined){
     var $ = window.$;
     var streams = [
-        'http://live.radiorostov.ru:8000/rostovradiofm',
         'http://live.radiorostov.ru:8000/rostovradio',
+        'http://live.radiorostov.ru:8000/rostovradiofm',
         'http://178.76.238.182:8000/rostovradio',
         'http://178.76.238.182:8000/rostovradiofm',
         'http://81.19.85.204:80/rostov.mp3'
-    ];
+    ],
+    defaultStreamIndex = 0;
 
     var player;
     // HTML5
@@ -544,6 +545,10 @@
                 });
             }, 25);
         }
+
+        // set default stream
+        player.setCurrentFileIndex(defaultStreamIndex);
+        updateStreamLabel();
     }
     function checkFlash() {
         var hasFlash = false;
@@ -566,10 +571,11 @@
     if (typeof($) === 'function') {
         $(function(){
             if (typeof(VK) !== 'undefined') {
-                var pageUrl = 'http://radio.romanziva.ru/';
+                var pageUrl = 'http://live.radiorostov.ru/',
+                    pageId = 0;
                 VK.init({apiId: 2859319, onlyWidgets: true});
                 VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
-                VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
+                VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*"/*, pageUrl: pageUrl*/}, pageId);
             }
         });
     }
