@@ -571,11 +571,10 @@
     if (typeof($) === 'function') {
         $(function(){
             if (typeof(VK) !== 'undefined') {
-                var pageUrl = 'http://live.radiorostov.ru/',
-                    pageId = 0;
+                var pageUrl = 'http://radio.romanziva.ru/';
                 VK.init({apiId: 2859319, onlyWidgets: true});
                 VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
-                VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*"/*, pageUrl: pageUrl*/}, pageId);
+                VK.Widgets.Comments("vk_comments", {limit: 10, width: "500", attach: "*", pageUrl: pageUrl});
             }
         });
     }
