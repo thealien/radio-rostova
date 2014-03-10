@@ -1,4 +1,5 @@
 /*global uppodSend */
+'use strict';
 (function (window, undefined) {
 
     function abstractFunc(){ throw new Error('Abstract function '); }
@@ -39,7 +40,7 @@
         this.getCurrentFile = function(){
             var file = this.options.files[this.getCurrentFileIndex()];
             if (!file) {
-                throw Error('File #'+this.getCurrentFileIndex()+' does not exists');
+                throw new Error('File #'+this.getCurrentFileIndex()+' does not exists');
             }
             return file;
         };
@@ -122,7 +123,7 @@
     Html5Player.prototype.constructor = Html5Player;
 
     Html5Player.isSupport = function(){
-        if (window.Audio !== undefined) {
+        if (typeof window.Audio !== 'undefined') {
             try {
                 new window.Audio();
                 return true;
