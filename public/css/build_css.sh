@@ -1,1 +1,0 @@
-cat main.css new-player.css > all.css && yui-compressor all.css > all.min.css
