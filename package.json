@@ -1,14 +1,19 @@
 {
-  "name": "radio-rostov",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app"
-  },
-  "dependencies": {
-    "express": "*",
-    "jade": "*",
-    "socket.io": "*",
-    "data-tracker": "*"
-  }
+    "name":"radio-rostov",
+    "version":"0.0.2",
+    "private":true,
+    "scripts":{
+        "start":"node app"
+    },
+    "dependencies":{
+        "express":"*",
+        "jade":"*",
+        "socket.io":"*",
+        "data-tracker":"*"
+    },
+    "devDependencies":{
+        "grunt":"*",
+        "grunt-contrib-uglify":"*",
+        "grunt-contrib-cssmin":"*"
+    }
 }
