@@ -1,0 +1,13 @@
+#!/bin/bash
+REPO=$(pwd)
+EXIT_CODE=0
+for FILE in `git diff --diff-filter=ACMTR --name-only HEAD -- | egrep *.js`; do
+    jshint ${REPO}/${FILE} --config=${REPO}/dev/jshint.config
+    EXIT_CODE=$((${EXIT_CODE} + $?))
+done
+if [[ ${EXIT_CODE} -ne 0 ]]; then
+    echo ""
+    echo "JSHint detected syntax problems."
+    echo "Commit aborted."
+fi
+exit $((${EXIT_CODE}))
