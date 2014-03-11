@@ -1,14 +1,23 @@
 /*global grunt*/
 'use strict';
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
-    // Project configuration.
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        uglify: {
-            build: {
-                files: {
-                    'public/js/all.js': [
+        cssmin:{
+            combine:{
+                files:{
+                    'public/css/all.css': [
+                        'public/css/main.css',
+                        'public/css/new-player.css'
+                    ]
+                }
+            }
+        },
+
+        uglify:{
+            build:{
+                files:{
+                    'public/js/all.js':[
                         'public/js/player.js',
                         'public/js/uppod/uppod_api.js',
                         'public/js/lastFmClient.js',
@@ -19,10 +28,9 @@ module.exports = function(grunt) {
         }
     });
 
-    // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-    // Default task(s).
-    grunt.registerTask('default', ['uglify']);
+    grunt.registerTask('default', ['uglify', 'cssmin']);
 
 };
