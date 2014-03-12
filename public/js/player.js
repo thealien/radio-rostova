@@ -123,13 +123,10 @@
     Html5Player.prototype.constructor = Html5Player;
 
     Html5Player.isSupport = function(){
-        var Audio = window.Audio,
-            test;
+        var Audio = window.Audio;
         if (typeof Audio !== 'undefined') {
             try {
-                test = new Audio();
-                test = null;
-                return true;
+                return !!new Audio();
             } catch(e){}
         }
         return false;

@@ -1,76 +1,47 @@
 //	JavaScript API 2.0 for Uppod 1+
 //  http://uppod.ru/js
+'use strict';
+(function () {
+    var global = this,
+        document = global.document;
 
-	// Events
-	
-	function uppodEvent(playerID,event) { 
+    global.uppodEvent = function (playerID, event) {
+        switch(event){
+            case 'init':
+                break;
+            case 'start':
+                break;
+            case 'play':
+                break;
+            case 'pause':
+                break;
+            case 'stop':
+                break;
+            case 'seek':
+                break;
+            case 'loaded':
+                break;
+            case 'end':
+                break;
+            case 'download':
+                break;
+            case 'quality':
+                break;
+            case 'error':
+                break;
+            case 'ad_end':
+                break;
+            case 'pl':
+                break;
+        }
+    };
 
-		switch(event){
-		
-			case 'init': 
-			
-				break;
-				
-			case 'start': 
-				
-				break;
-			
-			case 'play': 
-				
-				break;
-				
-			case 'pause': 
-				
-				break;
-				
-			case 'stop': 
-				
-				break;
-				
-			case 'seek': 
-							
-				break;
-				
-			case 'loaded':
-				
-				break;
-				
-			case 'end':
-				
-				break;
-				
-			case 'download':
-				
-				break;
-				
-			case 'quality':
-				
-				break;
-			
-			case 'error':
-				
-				break;
-					
-			case 'ad_end':
-				
-				break;
-				
-			case 'pl':
-				
-				break;
-		}
-		
-	}
-	
-	// Commands
-	
-	function uppodSend(playerID,com,callback) {
-		document.getElementById(playerID).sendToUppod(com);
-	}
-	
-	// Requests
-	
-	function uppodGet(playerID,com,callback) {
-		return document.getElementById(playerID).getUppod(com);
-	}
+    global.uppodSend = function (playerID, com/*, callback*/) {
+        document.getElementById(playerID).sendToUppod(com);
+    };
 
+    global.uppodGet = function (playerID, com/*, callback*/) {
+        return document.getElementById(playerID).getUppod(com);
+    };
+
+})();
