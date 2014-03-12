@@ -18,9 +18,11 @@ html
         'name'="keywords"
         'content'="радио ростова онлайн 101.6 FM, слушать радио ростова онлайн, радио ростова плейлист, слушать радио ростова"
     )
-    //link(rel='stylesheet', href='css/main.css?2012101')
-    //link(rel='stylesheet', href='css/new-player.css?2012101')
-    link(rel='stylesheet', href='css/all.css?20130226_4')
+    if (IS_PROD)
+        link(rel='stylesheet', href='css/all.css?20130226_4')
+    else
+        link(rel='stylesheet', href='css/main.css?2012101')
+        link(rel='stylesheet', href='css/new-player.css?2012101')
     link(rel='image_src', type="image/jpeg", href='http://live.radiorostov.ru/images/rr.jpg')
   body
     block content
