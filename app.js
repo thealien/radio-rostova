@@ -1,3 +1,5 @@
+'use strict';
+
 // libs
 var express = require('express'),
     socketio = require('socket.io'),
@@ -21,12 +23,16 @@ app.configure(function () {
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
+    app.use(express['static'](__dirname + '/public'));
 });
 
 app.configure('development', function () {
     app.use(express.logger('dev'));
     app.use(express.errorHandler());
+});
+
+app.locals({
+    IS_PROD: (process.env.NODE_ENV === 'production')
 });
 
 app.get('/', routes.index);
@@ -52,11 +58,11 @@ io.configure('production', function(){
     io.enable('browser client gzip');
     io.set('log level', 1);
     io.set('transports', [
-        'websocket'
-        , 'flashsocket'
-        , 'htmlfile'
-        , 'xhr-polling'
-        , 'jsonp-polling'
+        'websocket',
+        'flashsocket',
+        'htmlfile',
+        'xhr-polling',
+        'jsonp-polling'
     ]);
 });
 
