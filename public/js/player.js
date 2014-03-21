@@ -1,4 +1,5 @@
 /*global uppodSend */
+'use strict';
 (function (window, undefined) {
 
     function abstractFunc(){ throw new Error('Abstract function '); }
@@ -39,7 +40,7 @@
         this.getCurrentFile = function(){
             var file = this.options.files[this.getCurrentFileIndex()];
             if (!file) {
-                throw Error('File #'+this.getCurrentFileIndex()+' does not exists');
+                throw new Error('File #'+this.getCurrentFileIndex()+' does not exists');
             }
             return file;
         };
@@ -103,7 +104,7 @@
     // HTML5 player
     //
 
-    function Html5Player(player, options){
+    function Html5Player(){
         this.parent.apply(this, arguments);
 
         var self = this;
@@ -122,10 +123,10 @@
     Html5Player.prototype.constructor = Html5Player;
 
     Html5Player.isSupport = function(){
-        if (window.Audio !== undefined) {
+        var Audio = window.Audio;
+        if (typeof Audio !== 'undefined') {
             try {
-                new window.Audio();
-                return true;
+                return !!new Audio();
             } catch(e){}
         }
         return false;
@@ -198,7 +199,7 @@
     //
 
 
-    function UppodPlayer(player, options){
+    function UppodPlayer(){
         this.parent.apply(this, arguments);
     }
 

@@ -1,11 +1,13 @@
-(function(window, undefined){
+'use strict';
+(function(window){
+    var $ = window.jQuery;
 
     function LastFmClient(apiKey){
         var apiUrl = 'http://ws.audioscrobbler.com/2.0/';
 
         this.request = function(data, success, error){
             data = data || {};
-            if (data.method === undefined) {
+            if (typeof data.method === 'undefined') {
                 throw new Error('method is undefined');
             }
 
@@ -26,11 +28,11 @@
         var client = new LastFmClient(apiKey);
         this.getClient = function(){
             return client;
-        }
+        };
     }
 
     LastFm.prototype.getRecentTracks = function(options, success, error){
-        if (options.user === undefined) {
+        if (typeof options.user === 'undefined') {
             throw new Error('User is undefined');
         }
         options.method = 'user.getrecenttracks';

@@ -1,7 +1,7 @@
 #!/bin/bash
 REPO=$(pwd)
 EXIT_CODE=0
-for FILE in `git diff --diff-filter=ACMTR --name-only HEAD -- | egrep *.js`; do
+for FILE in `git diff --diff-filter=ACMTR --name-only HEAD -- | grep ".js$"`; do
     jshint ${REPO}/${FILE} --config=${REPO}/dev/jshint.config
     EXIT_CODE=$((${EXIT_CODE} + $?))
 done

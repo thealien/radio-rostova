@@ -1,4 +1,5 @@
 /*global Html5Player, UppodPlayer, VK, io, LastFm, ActiveXObject */
+'use strict';
 // Date hack for IE8
 (function(){
     var D= new Date('2011-06-02T09:34:29+02:00');
@@ -34,7 +35,7 @@
 })();
 
 // track-searcher
-(function(window, undefined){
+(function(window){
     var $ = window.jQuery;
     var lastFm = new LastFm('c7cf555ada3061e1a0fe8b258185d6d9');
     var tabButton = $('#track-searcher .tab-button.search:first');
@@ -247,7 +248,7 @@
 }(window));
 
 // Hand Pointer
-(function (window, undefined) {
+(function (window) {
     var $, $hand, $tabButton;
     var hideHelper = Number(getCookie('search-helper'));
     if (!hideHelper) {
@@ -282,7 +283,7 @@
 })(window);
 
 // tracker
-(function(window, undefined){
+(function(window){
     var currentTrack = null;
     var $ = window.jQuery;
     var l = window.location;
@@ -329,7 +330,7 @@
 })(window);
 
 // like button
-(function (window, undefined) {
+(function (window) {
     var $ = window.jQuery, afterShareClick;
     var $likeIcon = $('#like');
     var $fbLike = $likeIcon.children('.target.facebook:first');
@@ -556,7 +557,7 @@
             var fo = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
             if (fo) { hasFlash = true; }
         } catch (e) {
-            if (navigator.mimeTypes ["application/x-shockwave-flash"] !== undefined) {
+            if (typeof navigator.mimeTypes["application/x-shockwave-flash"] !== 'undefined') {
                 hasFlash = true;
             }
         }
@@ -566,11 +567,11 @@
 })(window);
 
 // VK comments
-(function (window, undefined) {
+(function (window) {
     var $ = window.$;
     if (typeof($) === 'function') {
         $(function(){
-            if (typeof(VK) !== 'undefined') {
+            if (typeof VK !== 'undefined') {
                 var pageUrl = 'http://radio.romanziva.ru/';
                 VK.init({apiId: 2859319, onlyWidgets: true});
                 VK.Widgets.Like("vk_like", {type: "mini", height: 18, pageUrl: pageUrl});
