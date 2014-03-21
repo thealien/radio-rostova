@@ -1,8 +1,8 @@
 //	JavaScript API 2.0 for Uppod 1+
 //  http://uppod.ru/js
 'use strict';
-(function () {
-    var global = this,
+(function (window) {
+    var global = window,
         document = global.document;
 
     global.uppodEvent = function (playerID, event) {
@@ -44,4 +44,4 @@
         return document.getElementById(playerID).getUppod(com);
     };
 
-})();
+})(window);
