@@ -9,31 +9,30 @@ var express = require('express'),
 
 var app = express();
 
+var env = process.env.NODE_ENV || 'development';
+
 var data_tracker_lib = './libs/tracker/';
-app.configure('production', function(){
+if (env === 'production') {
     data_tracker_lib = 'data-tracker';
-});
+}
+
 data_tracker = require(data_tracker_lib);
 
-app.configure(function () {
-    app.set('port', process.env.PORT || 6789);
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
-    app.use(express.favicon());
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(app.router);
-    app.use(express['static'](__dirname + '/public'));
-});
+app.set('port', process.env.PORT || 6789);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(require('static-favicon')());
+app.use(require('body-parser')());
+app.use(require('method-override')());
+//app.use(app.router);
+app.use(require('serve-static')(__dirname + '/public'));
 
-app.configure('development', function () {
-    app.use(express.logger('dev'));
-    app.use(express.errorHandler());
-});
+if (env === 'development') {
+    app.use(require('morgan')('dev'));
+    app.use(require('errorhandler')());
+}
 
-app.locals({
-    IS_PROD: (process.env.NODE_ENV === 'production')
-});
+app.locals.IS_PROD = (env === 'production');
 
 app.get('/', routes.index);
 
@@ -52,7 +51,7 @@ var tracker = data_tracker.create(require('./config/tracker.js').sources);
 
 // socket.io
 var io = socketio.listen(server);
-io.configure('production', function(){
+if (env === 'production') {
     io.enable('browser client minification');
     io.enable('browser client etag');
     io.enable('browser client gzip');
@@ -64,7 +63,7 @@ io.configure('production', function(){
         'xhr-polling',
         'jsonp-polling'
     ]);
-});
+}
 
 tracker.on('dataUpdate', function(name, track, formattedTrack){
     console.log(new Date(), formattedTrack);

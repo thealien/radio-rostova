@@ -6,7 +6,14 @@
         "start":"node app"
     },
     "dependencies":{
-        "express": "3.x",
+        "express": "4.x",
+        "body-parser": "*",
+        "method-override": "*",
+        "static-favicon": "*",
+        "morgan": "*",
+        "errorhandler": "*",
+        "serve-static": "*",
+
         "jade":"*",
         "socket.io":"*",
         "data-tracker":"*"
