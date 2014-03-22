@@ -15,7 +15,7 @@
         "serve-static": "*",
 
         "jade":"*",
-        "socket.io":"*",
+        "socket.io":"0.9.x",
         "data-tracker":"*"
     },
     "devDependencies":{

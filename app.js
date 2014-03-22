@@ -3,11 +3,12 @@
 // libs
 var express = require('express'),
     socketio = require('socket.io'),
-    http = require('http'),
     routes = require('./routes'),
     data_tracker;
 
 var app = express();
+var server = app.listen(process.env.PORT || 6789);
+var io = socketio.listen(server);
 
 var env = process.env.NODE_ENV || 'development';
 
@@ -41,20 +42,13 @@ process.on('uncaughtException', function(err) {
     console.log("Uncaught exception!", err);
 });
 
-// HTTP Server
-var server = http.createServer(app).listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
-});
-
 // Tracker
 var tracker = data_tracker.create(require('./config/tracker.js').sources);
 
-// socket.io
-var io = socketio.listen(server);
 if (env === 'production') {
-    io.enable('browser client minification');
-    io.enable('browser client etag');
-    io.enable('browser client gzip');
+    io.set('browser client minification', true);
+    io.set('browser client etag', true);
+    io.set('browser client gzip', true);
     io.set('log level', 1);
     io.set('transports', [
         'websocket',
@@ -64,6 +58,7 @@ if (env === 'production') {
         'jsonp-polling'
     ]);
 }
+
 
 tracker.on('dataUpdate', function(name, track, formattedTrack){
     console.log(new Date(), formattedTrack);
@@ -81,3 +76,4 @@ io.sockets.on('connection', function (socket) {
         console.error(e);
     });
 });
+
