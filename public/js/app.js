@@ -387,8 +387,8 @@
 (function(window, undefined){
     var $ = window.$;
     var streams = [
-        'http://ovh.romanziva.ru:8000/rostovradio',
-        'http://ovh.romanziva.ru:8000/rostovradiofm',
+        'http://live.radiorostov.ru:8000/rostovradio',
+        'http://live.radiorostov.ru:8000/rostovradiofm',
         'http://178.76.238.182:8000/rostovradio',
         'http://178.76.238.182:8000/rostovradiofm',
         'http://81.19.85.204:80/rostov.mp3'
