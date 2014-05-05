@@ -369,7 +369,8 @@
     });
 
     function updateFbLike (data) {
-        var url = 'http://www.facebook.com/sharer/sharer.php?s=100&p[title]=Радио Ростова 101.6 FM&p[summary]='+encodeURIComponent(data.text)+'&p[url]='+encodeURIComponent(data.url)+'&p[images][0]='+encodeURIComponent(data.image);
+        var  appId = 528857027205252,
+            url = "https://www.facebook.com/dialog/feed?app_id="+appId+"&link="+data.url+"&picture="+data.image+"&name="+encodeURIComponent("Радио Ростова 101.6 FM")+"&description="+encodeURIComponent(data.text)+"&message=Facebook%20Dialogs%20are%20so%20easy&redirect_uri="+data.url;
         $fbLike.attr('href', url);
     }
     function updateVkLike (data) {
