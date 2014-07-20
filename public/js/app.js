@@ -247,41 +247,6 @@
     }
 }(window));
 
-// Hand Pointer
-(function (window) {
-    var $, $hand, $tabButton;
-    var hideHelper = Number(getCookie('search-helper'));
-    if (!hideHelper) {
-        $ = window.jQuery;
-        $hand = $('#hand-pointer');
-        $tabButton = $('#track-searcher .tab-button.search:first');
-        $tabButton.click(function () {
-            if (!hideHelper) {
-                hideHelper = true;
-                var date = new Date();
-                date.setFullYear(date.getFullYear()+1);
-                setCookie('search-helper', 1, {
-                    expires: date
-                });
-                $hand.remove();
-            }
-        });
-        $hand.show();
-        animate(false);
-    }
-    function animate (forward) {
-        if (hideHelper) { return; }
-        $hand.animate({
-            left: (forward?'+':'-')+'=20'
-        },{
-            duration: 500,
-            complete: function () {
-                animate(!forward);
-            }
-        });
-    }
-})(window);
-
 // tracker
 (function(window){
     var currentTrack = null;
