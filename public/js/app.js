@@ -181,7 +181,7 @@
 
     function showEmptySearchResult () {
         clearSearchResult();
-        result.html('К сожалению ничего не найдено');
+        result.html('К сожалению, ничего не найдено');
         result.slideDown();
     }
 
