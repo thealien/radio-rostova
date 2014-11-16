@@ -1,11 +1,7 @@
 #EXTM3U
 #EXTINF:-1,Radio Rostov 101.6 FM (main)
 http://live.radiorostov.ru:8000/rostovradio
-#EXTINF:-1,Radio Rostov 101.6 FM (from FM-tuner)
-http://live.radiorostov.ru:8000/rostovradiofm
 #EXTINF:-1,Radio Rostov 101.6 FM (main for Spark)
 http://178.76.238.182:8000/rostovradio
-#EXTINF:-1,Radio Rostov 101.6 FM (from FM-tuner for Spark)
-http://178.76.238.182:8000/rostovradiofm
 #EXTINF:-1,Radio Rostov 101.6 FM (Rambler)
 http://audio.rambler.ru/action/play.m3u?id=458

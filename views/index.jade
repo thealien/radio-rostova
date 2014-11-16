@@ -75,20 +75,12 @@ block content
             a( title="Скачать плейлист", href="http://live.radiorostov.ru:8000/rostovradio.m3u", target="_blank") Основной поток
             br
             | 2.&nbsp;
-            a( title="Скачать плейлист", href="http://live.radiorostov.ru:8000/rostovradiofm.m3u", target="_blank") Альтернативный поток
-            |&nbsp;*&nbsp;(ретрансляция потока с fm-тюнера)
-            br
-            | 3.&nbsp;
             a( title="Скачать плейлист", href="http://178.76.238.182:8000/rostovradio.m3u", target="_blank") Основной поток внутри сети Спарк / ТТК
             br
-            | 4.&nbsp;
-            a( title="Скачать плейлист", href="http://178.76.238.182:8000/rostovradiofm.m3u", target="_blank") Альтернативный поток внутри сети Спарк / ТТК
-            |&nbsp;*&nbsp;(ретрансляция потока с fm-тюнера)
-            br
-            | 5.&nbsp;
+            | 3.&nbsp;
             a( title="Скачать плейлист", href="http://audio.rambler.ru/action/play.m3u?id=458", target="_blank") Ретрансляция Рамблера
             br
-            | 6.&nbsp;
+            | 4.&nbsp;
             i
                 a( title="Скачать плейлист со всеми потоками!", href="radiorostova_all.m3u", target="_blank") Плейлист со всеми потоками
             | &nbsp;
@@ -107,8 +99,6 @@ block content
         br
         br
         small
-            | * помните, что качество вещания зависит от качества приема fm-тюнера, с которого идет трансляция.
-            br
             | о любых проблемах воспроизведения пишите мне в icq: <b>466499433</b>, jabber/email: <b>roman.ziva[собака]gmail.com</b>.
             br
             a(href='http://romanziva.ru', target='_blank') разработка сайта
@@ -140,7 +130,7 @@ block content
     #rr-player-c
 
     if (IS_PROD)
-        script( src="js/all.js?20140720")
+        script( src="js/all.js?20141116")
     else
         script( src="js/player.js")
         script( src="js/uppod/uppod_api.js")
