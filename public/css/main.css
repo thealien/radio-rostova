@@ -299,18 +299,65 @@ div.socials .clear {
     clear: both;
 }
 
+@-webkit-keyframes pulsate {
+    from {
+        background-color: #05609a;
+        -webkit-box-shadow: 0 0 9px #333;
+    }
+    50% {
+        background-color: #1849bd;
+        -webkit-box-shadow: 0 0 18px #0070bd;
+    }
+    to {
+        background-color: #00579a;
+        -webkit-box-shadow: 0 0 9px #333;
+    }
+}
+
+@-moz-keyframes pulsate {
+    from {
+        background-color: #05609a;
+        -moz-box-shadow: 0 0 9px #333;
+    }
+    50% {
+        background-color: #1849bd;
+        -moz-box-shadow: 0 0 18px #0070bd;
+    }
+    to {
+        background-color: #00579a;
+        -moz-box-shadow: 0 0 9px #333;
+    }
+}
+@-o-keyframes pulsate {
+    from {
+        background-color: #05609a;
+        -o-box-shadow: 0 0 9px #333;
+    }
+    50% {
+        background-color: #1849bd;
+        -o-box-shadow: 0 0 18px #0070bd;
+    }
+    to {
+        background-color: #00579a;
+        -o-box-shadow: 0 0 9px #333;
+    }
+}
+
 @keyframes pulsate {
     from {
         background-color: #05609a;
         box-shadow: 0 0 9px #333;
+        -webkit-box-shadow: 0 0 9px #333;
     }
     50% {
         background-color: #1849bd;
         box-shadow: 0 0 18px #0070bd;
+        -webkit-box-shadow: 0 0 18px #0070bd;
     }
     to {
         background-color: #00579a;
         box-shadow: 0 0 9px #333;
+        -webkit-box-shadow: 0 0 9px #333;
     }
 }
 
