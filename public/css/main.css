@@ -299,5 +299,28 @@ div.socials .clear {
     clear: both;
 }
 
+@keyframes pulsate {
+    from {
+        background-color: #05609a;
+        box-shadow: 0 0 9px #333;
+    }
+    50% {
+        background-color: #1849bd;
+        box-shadow: 0 0 18px #0070bd;
+    }
+    to {
+        background-color: #00579a;
+        box-shadow: 0 0 9px #333;
+    }
+}
 
-
+#nomination {
+    -webkit-animation: pulsate 3s;
+    -moz-animation: pulsate 3s;
+    -o-animation: pulsate 3s;
+    animation: pulsate 3s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
