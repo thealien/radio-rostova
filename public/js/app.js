@@ -132,6 +132,21 @@
         );
     }
 
+    function parseTrackData(track){
+        var image;
+        try {
+            image = track.image[0]['#text'];
+        } catch(e){}
+        image = image || 'images/player/poster.jpg';
+        return {
+            name:   track.name || null,
+            artist: track.artist || null,
+            url:    track.url || null,
+            image: image,
+            date: track.date
+        };
+    }
+
     function showSearchResult (tracks, ts) {
         tracks = tracks || [];
         var count = tracks.length;
@@ -142,7 +157,7 @@
         clearSearchResult();
         var i, track, res = '', time = ts, target = null, cls, date;
         for (i=0; i<count; i++) {
-            track = tracks[i];
+            track = parseTrackData(tracks[i]);
             var trackDt = new Date();
             trackDt.setSeconds(0);
             if( track.date ) {
@@ -159,7 +174,7 @@
                 target = true;
             }
             var elem = '<li class="track '+cls+'">' +
-                '<img class="poster" src="'+track.image[0]['#text']+'">' +
+                '<img class="poster" src="'+track.image+'">' +
                 '<div class="info">' +
                     '<a class="name" target="_blank" href="'+track.url+'">'+track.name+'</a>' +
                     '<a class="artist" target="_blank" href="'+track.url+'">'+track.artist['#text']+'</a>' +
@@ -284,7 +299,7 @@
         try {
             image = track.image[2]['#text'];
         } catch(e){}
-        image = image || 'images/player/poster.jpg';
+        image = image || l.protocol + '//'+ l.host + '/images/player/poster.jpg';
         return {
             name:   track.name || null,
             artist: track.artist || null,
