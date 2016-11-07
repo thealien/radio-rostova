@@ -369,8 +369,7 @@
     var $ = window.$;
     var streams = [
         'http://live.radiorostov.ru:8000/rostovradio',
-        'http://178.76.238.182:8000/rostovradio',
-        'http://81.19.85.204:80/rostov.mp3'
+        'http://178.76.238.182:8000/rostovradio'
     ],
     defaultStreamIndex = 0;
 
