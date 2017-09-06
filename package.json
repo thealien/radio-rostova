@@ -16,7 +16,8 @@
 
         "jade":"*",
         "socket.io":"0.9.x",
-        "data-tracker":"*"
+        "data-tracker":"*",
+        "node-telegram-bot-api": "*"
     },
     "devDependencies":{
         "grunt":"*",
