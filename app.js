@@ -1,58 +1,51 @@
 'use strict';
 
-// libs
-var express = require('express'),
-    TelegramBot = require('node-telegram-bot-api'),
-    socketio = require('socket.io'),
-    routes = require('./routes'),
-    data_tracker;
+const express = require('express');
+const staticFavicon = require('static-favicon');
+const methodOverride = require('method-override');
+const serveStatic = require('serve-static');
+const morgan = require('morgan');
+const errorhandler = require('errorhandler');
 
-var app = express();
-var server = app.listen(process.env.PORT || 6789);
-var io = socketio.listen(server);
+const TelegramBot = require('node-telegram-bot-api');
+const socketio = require('socket.io');
+const data_tracker = require('data-tracker');
 
-var env = process.env.NODE_ENV || 'development';
+const port = parseInt(process.env.PORT, 10) || 6789;
 
-var data_tracker_lib = './libs/tracker/';
-if (env === 'production') {
-    data_tracker_lib = 'data-tracker';
-}
-
-data_tracker = require(data_tracker_lib);
-
-app.set('port', process.env.PORT || 6789);
-app.set('views', __dirname + '/views');
+const app = express();
+app.isProd = app.get('env') === 'production';
+app.set('port', port);
+app.set('views',  `${__dirname}/views`);
 app.set('view engine', 'jade');
-app.use(require('static-favicon')());
-app.use(require('body-parser')());
-app.use(require('method-override')());
-//app.use(app.router);
-app.use(require('serve-static')(__dirname + '/public'));
+app.use(staticFavicon());
+app.use(methodOverride());
+app.use(serveStatic(`${__dirname}/public`));
 
-if (env === 'development') {
-    app.use(require('morgan')('dev'));
-    app.use(require('errorhandler')());
+const server = app.listen(port);
+const io = socketio.listen(server);
+
+if (!app.isProd) {
+    app.use(morgan('dev'));
+    app.use(errorhandler());
 }
 
-app.locals.IS_PROD = (env === 'production');
-
-app.get('/', routes.index);
+app.locals.IS_PROD = app.isProd;
+app.get('/', (req, res) => res.render('index'));
 
 // exception handler
-process.on('uncaughtException', function(err) {
-    console.log("Uncaught exception!", err);
-});
+process.on('uncaughtException', err => console.log("Uncaught exception!", err));
 
 // Telegram Bot
-var tgConfig = require('./config/telegram');
-var tgToken = tgConfig.bot_token;
-var tgChannel = tgConfig.channel_id;
-var tgBot = new TelegramBot(tgToken, {polling: false});
+const tgConfig = require('./config/telegram');
+const tgToken = tgConfig.bot_token;
+const tgChannel = tgConfig.channel_id;
+const tgBot = new TelegramBot(tgToken, {polling: false});
 
 // Tracker
-var tracker = data_tracker.create(require('./config/tracker.js').sources);
+const tracker = data_tracker.create(require('./config/tracker.js').sources);
 
-if (env === 'production') {
+if (app.isProd) {
     io.set('browser client minification', true);
     io.set('browser client etag', true);
     io.set('browser client gzip', true);
@@ -66,30 +59,28 @@ if (env === 'production') {
     ]);
 }
 
-
-tracker.on('dataUpdate', function(name, track/*, formattedTrack*/){
-    //console.log(new Date(), formattedTrack);
+tracker.on('dataUpdate', (name, track) =>{
     if (name === 'radiorostov') {
         io.sockets.emit('trackUpdate', track);
     }
 });
 
-tracker.on('dataUpdate', function(name, track, formattedTrack){
+tracker.on('dataUpdate', (name, track, formattedTrack) => {
     if (name === 'radiorostov' && track.mbid) {
-        var images = track.image;
-        var image = images[images.length-1];
+        const images = track.image;
+        const image = images[images.length-1];
         if (image) {
-            var photo = image['#text'];
+            const photo = image['#text'];
             // var url = track.url;
             // tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack + '\n' + url, disable_notification: true});
-            tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack, disable_notification: true});
+            // tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack, disable_notification: true});
         }
     }
 });
 
 tracker.start();
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', socket => {
     socket.emit('trackUpdate', tracker.getCurrentData('radiorostov'));
     socket.on('error', function (e) {
         console.error('socketio error');
