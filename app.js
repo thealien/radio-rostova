@@ -80,8 +80,9 @@ tracker.on('dataUpdate', function(name, track, formattedTrack){
         var image = images[images.length-1];
         if (image) {
             var photo = image['#text'];
-            var url = track.url;
-            tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack + '\n' + url, disable_notification: true});
+            // var url = track.url;
+            // tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack + '\n' + url, disable_notification: true});
+            tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack, disable_notification: true});
         }
     }
 });
