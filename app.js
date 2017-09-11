@@ -77,13 +77,12 @@ tracker.on('dataUpdate', function(name, track/*, formattedTrack*/){
 tracker.on('dataUpdate', function(name, track, formattedTrack){
     if (name === 'radiorostov' && track.mbid) {
         var images = track.image;
+        var defaultImage = 'https://lastfm-img2.akamaized.net/i/u/300x300/c6f59c1e5e7240a4c0d427abd71f3dbb';
         var image = images[images.length-1];
-        if (image) {
-            var photo = image['#text'];
-            // var url = track.url;
-            // tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack + '\n' + url, disable_notification: true});
-            tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack, disable_notification: true});
-        }
+        var photo = image && image['#text'] || defaultImage;
+        // var url = track.url;
+        // tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack + '\n' + url, disable_notification: true});
+        tgBot.sendPhoto(tgChannel, photo, {caption: formattedTrack, disable_notification: true});
     }
 });
 
