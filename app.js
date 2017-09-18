@@ -1,9 +1,7 @@
 'use strict';
 
 const express = require('express');
-const staticFavicon = require('static-favicon');
 const methodOverride = require('method-override');
-const serveStatic = require('serve-static');
 const morgan = require('morgan');
 const errorhandler = require('errorhandler');
 
@@ -18,9 +16,7 @@ app.isProd = app.get('env') === 'production';
 app.set('port', port);
 app.set('views',  `${__dirname}/views`);
 app.set('view engine', 'jade');
-app.use(staticFavicon());
 app.use(methodOverride());
-app.use(serveStatic(`${__dirname}/public`));
 
 const server = app.listen(port);
 const io = socketio.listen(server);
