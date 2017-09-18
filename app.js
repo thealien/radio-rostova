@@ -45,20 +45,6 @@ const tgBot = new TelegramBot(tgToken, {polling: false});
 // Tracker
 const tracker = data_tracker.create(require('./config/tracker.js').sources);
 
-if (app.isProd) {
-    io.set('browser client minification', true);
-    io.set('browser client etag', true);
-    io.set('browser client gzip', true);
-    io.set('log level', 1);
-    io.set('transports', [
-        'websocket',
-        'flashsocket',
-        'htmlfile',
-        'xhr-polling',
-        'jsonp-polling'
-    ]);
-}
-
 tracker.on('dataUpdate', (name, track) =>{
     if (name === 'radiorostov') {
         io.sockets.emit('trackUpdate', track);
@@ -87,4 +73,3 @@ io.sockets.on('connection', socket => {
         console.error(e);
     });
 });
-

@@ -16,7 +16,7 @@
     "morgan": "^1.8.2",
     "node-telegram-bot-api": "^0.28.0",
     "serve-static": "^1.12.4",
-    "socket.io": "^0.9.19",
+    "socket.io": "^2.0.3",
     "static-favicon": "^1.0.2"
   },
   "devDependencies": {
