@@ -1,27 +1,26 @@
 {
-    "name":"radio-rostov",
-    "version":"0.0.2",
-    "private":true,
-    "scripts":{
-        "start":"node app"
-    },
-    "dependencies":{
-        "express": "4.x",
-        "body-parser": "*",
-        "method-override": "*",
-        "static-favicon": "*",
-        "morgan": "*",
-        "errorhandler": "*",
-        "serve-static": "*",
-
-        "jade":"*",
-        "socket.io":"0.9.x",
-        "data-tracker":"*",
-        "node-telegram-bot-api": "*"
-    },
-    "devDependencies":{
-        "grunt":"*",
-        "grunt-contrib-uglify":"*",
-        "grunt-contrib-cssmin":"*"
-    }
+  "name": "radio-rostov",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "data-tracker": "^0.1.10",
+    "errorhandler": "^1.5.0",
+    "express": "^4.15.4",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.9",
+    "morgan": "^1.8.2",
+    "node-telegram-bot-api": "^0.28.0",
+    "serve-static": "^1.12.4",
+    "socket.io": "^2.0.3",
+    "static-favicon": "^1.0.2"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify": "^3.0.1"
+  }
 }
