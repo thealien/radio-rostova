@@ -137,8 +137,9 @@
         if (Html5Player.isSupport()) {
             format = format.toLowerCase();
             var formats = {
-                ogg: 'audio/ogg;',
-                mp3: 'audio/mpeg;'
+                ogg: 'audio/ogg',
+                mp3: 'audio/mpeg',
+                aac: 'audio/aac'
             };
             var a = new window.Audio();
             result = (formats[format] && !!a.canPlayType(formats[format]));
