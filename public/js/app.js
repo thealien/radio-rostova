@@ -334,7 +334,7 @@
     }
 
     $(window).on('trackUpdate', function (e, track) {
-        if(track.artist === 'Радио Ростова на 101.6 FM' || track.artist === 'Радио Ростова') {
+        if(track.artist === 'Радио Ростова') {
             $likeIcon.hide();
         } else {
             var tr = $.extend({}, track);
@@ -350,11 +350,11 @@
 
     function updateFbLike (data) {
         var  appId = 528857027205252,
-            url = "https://www.facebook.com/dialog/feed?app_id="+appId+"&link="+data.url+"&picture="+data.image+"&name="+encodeURIComponent("Радио Ростова 101.6 FM")+"&description="+encodeURIComponent(data.text)+"&message=Facebook%20Dialogs%20are%20so%20easy&redirect_uri="+data.url;
+            url = "https://www.facebook.com/dialog/feed?app_id="+appId+"&link="+data.url+"&picture="+data.image+"&name="+encodeURIComponent("Радио Ростова")+"&description="+encodeURIComponent(data.text)+"&message=Facebook%20Dialogs%20are%20so%20easy&redirect_uri="+data.url;
         $fbLike.attr('href', url);
     }
     function updateVkLike (data) {
-        var url = 'http://vk.com/share.php?url='+encodeURIComponent(data.url)+'&description='+encodeURIComponent(data.text)+'&title=Радио Ростова 101.6 FM&image='+encodeURIComponent(data.image)+'&noparse=true';
+        var url = 'http://vk.com/share.php?url='+encodeURIComponent(data.url)+'&description='+encodeURIComponent(data.text)+'&title=Радио Ростова&image='+encodeURIComponent(data.image)+'&noparse=true';
         $vkLike.attr('href', url);
     }
     function updateTwLike (data) {

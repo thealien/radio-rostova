@@ -13,7 +13,7 @@ sources.push({
             },
             defaultTrack: {
                 name:   'RadioRostov.ru',
-                artist: 'Радио Ростова на 101.6 FM',
+                artist: 'Радио Ростова',
                 album:  '',
                 ts:     0
             },
