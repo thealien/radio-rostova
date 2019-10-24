@@ -65,19 +65,16 @@ block content
         span.label Текущий поток:&nbsp;
         span.stream-index #1
         | &nbsp;
-        a.url( href="https://streams.radio.co/s971be83ad/listen") https://streams.radio.co/s971be83ad/listen
+        a.url( href="http://live.radiorostov.ru:8000/rostovradio") http://live.radiorostov.ru:8000/rostovradio
     br
     .info
         div( style='width: 500px; margin: 0 auto; text-align: left;')
             b Чтобы слушать в своем любимом плеере, скачайте один из плейлистов
             br
             | 1.&nbsp;
-            a( title="Скачать плейлист", href="https://streams.radio.co/s971be83ad/listen.m3u", target="_blank") Основной поток
+            a( title="Скачать плейлист", href="http://live.radiorostov.ru:8000/rostovradio.m3u", target="_blank") Основной поток
             br
             | 2.&nbsp;
-            a( title="Скачать плейлист", href="http://live.radiorostov.ru:8000/rostovradio.m3u", target="_blank") Резервный поток
-            br
-            | 3.&nbsp;
             i
                 a( title="Скачать плейлист со всеми потоками!", href="radiorostova_all.m3u", target="_blank") Плейлист со всеми потоками
             | &nbsp;
@@ -127,7 +124,7 @@ block content
     #rr-player-c
 
     if (IS_PROD)
-        script( src="js/all.js?20171229")
+        script( src="js/all.js?20191024")
     else
         script( src="js/player.js")
         script( src="js/uppod/uppod_api.js")

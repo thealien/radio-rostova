@@ -368,9 +368,9 @@
 (function(window, undefined){
     var $ = window.$;
     var streams = [
-        'https://streams.radio.co/s971be83ad/listen',
-        'http://live.radiorostov.ru:8000/rostovradio',
-        'http://178.76.238.182:8000/rostovradio'
+        //'https://streams.radio.co/s971be83ad/listen',
+        'http://live.radiorostov.ru:8000/rostovradio'
+        //'http://178.76.238.182:8000/rostovradio'
     ],
     defaultStreamIndex = 0;
 

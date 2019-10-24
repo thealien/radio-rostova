@@ -1,7 +1,3 @@
 #EXTM3U
 #EXTINF:-1,Radio Rostov (main)
-https://streams.radio.co/s971be83ad/listen
-#EXTINF:-1,Radio Rostov (main2)
 http://live.radiorostov.ru:8000/rostovradio
-#EXTINF:-1,Radio Rostov (main for Spark)
-http://178.76.238.182:8000/rostovradio
