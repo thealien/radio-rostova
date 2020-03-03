@@ -1,1 +1,0 @@
-forever restart app.js
