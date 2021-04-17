@@ -1,3 +1,5 @@
+- URL = 'http://radio.jingles.ru'
+- DOMAIN = 'radio.jingles.ru'
 doctype html
 html
   head
@@ -23,7 +25,7 @@ html
     else
         link(rel='stylesheet', href='css/main.css?20181007')
         link(rel='stylesheet', href='css/new-player.css?20181007')
-    link(rel='image_src', type="image/jpeg", href='http://live.radiorostov.ru/images/rr.jpg')
-    link(rel='shortcut icon', type="image/x-icon", href='http://live.radiorostov.ru/favicon.ico')
+    link(rel='image_src', type="image/jpeg", href='#{URL}/images/rr.jpg')
+    link(rel='shortcut icon', type="image/x-icon", href='#{URL}/favicon.ico')
     body
     block content
