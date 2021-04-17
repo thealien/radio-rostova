@@ -12,13 +12,13 @@ var server = app.listen(process.env.PORT || 6789);
 var io = socketio.listen(server);
 
 var env = process.env.NODE_ENV || 'development';
-
+/*
 var data_tracker_lib = './libs/tracker/';
 if (env === 'production') {
     data_tracker_lib = 'data-tracker';
 }
-
-data_tracker = require(data_tracker_lib);
+*/
+data_tracker = require('data-tracker');
 
 app.set('port', process.env.PORT || 6789);
 app.set('views', __dirname + '/views');
