@@ -423,8 +423,9 @@
         controls.prev.mousedown(onPrevClick);
         controls.next.mousedown(onNextClick);
         controls.stop.mousedown(onStopClick);
-        controls.volume.progress.on('mousemove mousedown', function(e){
-            if (e.type === 'mousedown') {
+        controls.volume.progress.on('mousemove mousedown touchmove touchstart', function(e){
+            
+            if (e.type === 'mousedown' || e.type === 'touchstart') {
                 this.mousedown = true;
             }
             if (!this.mousedown) {
@@ -432,11 +433,16 @@
             }
             var me = $(this);
             this.width = this.width || (this.width = me.innerWidth());
+            if (e.originalEvent.changedTouches) {
+                e.clientX = e.originalEvent.changedTouches[0].clientX;
+            }
             var diff = e.clientX - me.offset().left;
             var value = Math.round(diff/this.width*100);
-            onVolumeChange(value);
+            if (value >= 0 && value <= 100) {
+                onVolumeChange(value);
+            }
         });
-        $(document).on('mouseup', function(){
+        $(document).on('mouseup touchcancel touchend', function(){
             controls.volume.progress[0].mousedown = false;
         });
 
