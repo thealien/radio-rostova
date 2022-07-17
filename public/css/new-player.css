@@ -216,26 +216,11 @@
     width: 0;
     height: 6px;
 }
-#rr-player .track-info .volume .progress .slider .left {
-    background: url(../images/player/progress-slider.png) repeat-x;
-    width: 3px;
-    height: 6px;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
+
 #rr-player .track-info .volume .progress .slider .center {
     background: url(../images/player/progress-slider.png) repeat-x 0 -7px;
     height: 6px;
-    margin: 0 3px
-}
-#rr-player .track-info .volume .progress .slider .right {
-    background: url(../images/player/progress-slider.png) repeat-x -4px 0;
-    position: absolute;
-    width: 4px;
-    height: 6px;
-    top: 0;
-    right: 0;
+    border-radius: 3px;
 }
 
 #rr-player .track-info .volume .label,
