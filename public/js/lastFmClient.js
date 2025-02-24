@@ -3,7 +3,7 @@
     var $ = window.jQuery;
 
     function LastFmClient(apiKey){
-        var apiUrl = 'http://ws.audioscrobbler.com/2.0/';
+        var apiUrl = '//ws.audioscrobbler.com/2.0/';
 
         this.request = function(data, success, error){
             data = data || {};

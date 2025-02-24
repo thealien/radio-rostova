@@ -59,7 +59,8 @@ h1.title {
     text-align: center;
 }
 div.socials {
-    width: 146px;
+    /* width: 146px; */
+    display: inline-block;
     margin: 0 auto;
     white-space: nowrap;
 }
