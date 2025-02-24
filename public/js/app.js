@@ -268,7 +268,7 @@
     var $ = window.jQuery;
     var l = window.location;
     var win = $(window);
-    var host = l.protocol + '//'+ l.host+':6789';
+    var host = l.protocol + '//'+ l.host;//+':6789';
     var socket = io.connect(host);
     socket.on('trackUpdate', function (data) {
         currentTrack = parseTrackData(data);
@@ -339,7 +339,7 @@
         } else {
             var tr = $.extend({}, track);
             tr.text = 'Я слушаю "'+ tr.artist+' - ' + tr.name + '" на Радио Ростова';
-            tr.url = 'http://radio.jingles.ru';
+            tr.url = 'https://radiorostova.ru/';
             updateFbLike(tr);
             updateVkLike(tr);
             updateTwLike(tr);
@@ -369,7 +369,7 @@
     var $ = window.$;
     var streams = [
         //'https://streams.radio.co/s971be83ad/listen',
-        'http://radio.jingles.ru:8000/rostovradio'
+        'https://radiorostova.ru:8443/rostovradio'
         //'http://178.76.238.182:8000/rostovradio'
     ],
     defaultStreamIndex = 0;
@@ -401,7 +401,7 @@
                 '<param name="movie" value="swf/uppod-audio.swf">'+
                 '<param name="id" value="rrplayer">' +
                 '<param name="allowScriptAccess" value="always">' +
-                '<param name="flashvars" value="uid=rrplayer&amp;st=/swf/youtube.txt&amp;file=http%3A%2F%2Fradio.jingles.ru%3A8000%2Frostovradiofm">' +
+                '<param name="flashvars" value="uid=rrplayer&amp;st=/swf/youtube.txt&amp;file=https%3A%2F%2Fradiorostova.ru%3A8000%2Frostovradiofm">' +
                 '</object>'
         );
 
